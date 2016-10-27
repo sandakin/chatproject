@@ -1,0 +1,217 @@
+//splash styles-----------------
+.splash-container {
+  margin-left: 10%;
+  width: 80%;
+  height: 100vh;
+  overflow: hidden;
+  background-repeat: repeat;
+  position: relative;
+  background-image: url("../assets/images/splash/splash_background_2.jpg");
+}
+
+#splash-img {
+  position: absolute;
+  left: 15%;
+  width: 50%;
+  border-radius: 20px;
+  z-index: 3;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-1 {
+  position: absolute;
+  top: 4%;
+  right: 15%;
+  width: 30%;
+  border-radius: 20px;
+  z-index: 0;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-2 {
+  position: absolute;
+  top: 52%;
+  right: 10%;
+  width: 40%;
+  border-radius: 20px;
+  z-index: 1;
+
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+
+#splash-img-bid-ico-2 {
+  position: absolute;
+  bottom: 5%;
+  left: 10%;
+  width: 15%;
+  z-index: 4;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-bid-ico-1 {
+  position: absolute;
+  top: 5%;
+  left: 28%;
+  width: 15%;
+  z-index: 4;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+
+
+#splash-img-female {
+  position: absolute;
+  top: 20%;
+  left: -4%;
+  width: 30%;
+  z-index: 5;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-bubble-left {
+  position: absolute;
+  top: 0%;
+  left: 8%;
+  width: 20%;
+  height: 30%;
+  z-index: 5;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-image: url("../assets/images/splash/chat_bubble_left.png");
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-bubble-left h4 {
+  font-size: 1.2em !important;
+  color: white !important;
+  line-height: 1em !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  padding-top: 20% !important;
+  margin-left: -10% !important;
+  text-align: center;
+}
+
+
+#splash-img-male {
+  position: absolute;
+  top: 12%;
+  right: 0px;
+  width: 25%;
+  z-index: 5;
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-bubble-right {
+  position: absolute;
+  top: -6%;
+  right: 8%;
+  width: 22%;
+  height: 34%;
+  z-index: 5;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-image: url("../assets/images/splash/chat_bubble_right.png");
+  -moz-animation: splash_img_scale_animation 4s forwards; /* Firefox */
+  -webkit-animation: splash_img_scale_animation 4s forwards; /* Safari and Chrome */
+  -o-animation: splash_img_scale_animation 4s forwards; /* Opera */
+  animation: splash_img_scale_animation 4s forwards;
+}
+#splash-img-bubble-right h4 {
+  font-size: 1.2em !important;
+  color: white !important;
+  line-height: 1em !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  padding-top: 20% !important;
+  margin-left: -10% !important;
+  text-align: center;
+}
+
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes splash_img_animation {
+  0%   { left:0px; -webkit-transform:scale(1) rotate(0deg)}
+  50%  {left:15%; -webkit-transform:scale(1) rotate(720deg)}
+}
+
+/* Standard syntax */
+@keyframes splash_img_animation {
+  0%   { left:0px; transform:scale(1) rotate(0deg)}
+  50%  {left:15%; transform:scale(1) rotate(720deg)}
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes splash_img_1_animation {
+  0%   { left:130%; -webkit-transform:scale(1) rotate(0deg)}
+  50%  {left:55%; -webkit-transform:scale(1) rotate(360deg)}
+}
+
+/* Standard syntax */
+@keyframes splash_img_1_animation {
+  0%   { left:130%; transform:scale(1) rotate(0deg)}
+  50%  {left:55%; transform:scale(1) rotate(360deg)}
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes splash_img_scale_animation {
+  from {
+    transform: scale(0);
+    -ms-transform: scale(0);
+    -webkit-transform: scale(0);
+    -o-transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    -o-transform: scale(1);
+  }
+}
+
+/* Standard syntax */
+@keyframes splash_img_scale_animation {
+  from {
+    transform: scale(0);
+    -ms-transform: scale(0);
+    -webkit-transform: scale(0);
+    -o-transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    -o-transform: scale(1);
+  }
+}
+
+//custom button style
+.splash-start-button {
+  position: absolute;
+  bottom: 2%;
+  left: 40%;
+  height: 10%;
+  width: 20%;
+  border-radius: 12px;
+  background-color: #4d0000 !important;
+  color: #ff9999 !important;
+}
+
+//splash styles-----------------

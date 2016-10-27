@@ -1,0 +1,137 @@
+<md-content class="" style="background-color: black; overflow: hidden;" ng-init="vm.init();">
+	<div layout="row" style="overflow: hidden;">
+		<div style="width: 30%; height: 100vh; background: #e5e5e5; overflow: auto;">
+			<div class="menu">
+				<div class="back">
+					<i class="fa fa-chevron-left" ng-click="vm.goBack();"></i>
+					<img src="assets/images/avatars/avatar-1.png" draggable="false" />
+				</div>
+				<div class="name">{{vm.currentLoggedUser.user_name}}</div>
+				<!--<div class="last">18:09</div>-->
+			</div>
+			<div class="chat">
+				<div class="day">Open Round 1</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '23.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '18.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '21.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '8.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '10.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 1 Results</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to low bid price in previous round.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 2</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '23.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '18.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '21.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '10.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 2 Results</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to low bid price in previous round.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to purchasing 2 health cards.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+			</div>
+			<!--<div layout="row" class="chat-message-send-container">
+				<input class="textarea" type="text" placeholder="Type here!" />
+				<md-button class="md-fab md-mini md-primary chat-send-btn" aria-label="Use Android">
+					<md-icon md-font-icon="zmdi zmdi-mail-send" style="color: greenyellow; text-align: center;"></md-icon>
+				</md-button>
+			</div>-->
+		</div>
+		<div layout="row" layout-align="center center" class="chat-container">
+			<img ng-src="assets/images/chat/chat_room_back_2.png" class="chat-container-back-img" />
+			<div ng-repeat="healthCard in vm.availableHealthCards" ng-class="'chat-health-card card-no-' + healthCard.id" ng-click="vm.healthCardOnClick(healthCard);">Card<br/>
+				<div class="chat-health-card-txt">{{healthCard.name}}</div>
+			</div>
+
+			<div ng-class="vm.auctioneerChatBubbleEffectClass" ng-hide="vm.auctioneerChatBubbleHide" class="chat-bubble">
+				<div class="chat-bubble-content">{{vm.auctioneerChatBubbleMsg}}</div>
+			</div>
+
+			<img id="chat-img" ng-src="assets/images/chat/auctioneer_desk.png" />
+			<div class="chat-bottom-bar" layout="row">
+				<div class="selected-card">You are selected <br/>
+					<div class="selected-card-no">{{(vm.currentlySelectedHealthCard == null) ? 'no card' : 'Card' + vm.currentlySelectedHealthCard.name}}</div>
+				</div>
+				<div class="place-bid">Place Your bid here <br/>
+					<div layout="row" class="place-bid-inputs">
+						<input type="number" placeholder="Enter BID value" max="100" min="0.5" step="0.5" ng-value="vm.currentlySelectedHealthCard.bid_value"
+						/>
+						<md-button class="md-raised md-warn">Submit Value</md-button>
+					</div>
+				</div>
+				<div class="remaining-fund">Remaining value <br/>
+					<div class="remaining-fund-value">{{vm.remainingUserValue}} AUD</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</md-content>
