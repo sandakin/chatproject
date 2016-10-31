@@ -1,0 +1,17 @@
+{
+    "MENU": {
+        "REGISTRATION": {
+            "REGISTRATION": "REGISTRATION"
+        }
+    },
+    "GITHUB": {
+        "JOIN": "Join the online TTO Servey",
+        "INTRO": "A classic format for compositions is the five-paragraph essay. It is not the only format for writing an essay, of course, but it is a useful model for you to keep in mind, especially as you begin to develop your composition skills. The following material is adapted from a handout prepared by Harry Livermore for his high school English classes at Cook High School in Adel, Georgia. It is used here with his permission.",
+        "TOOLBAR-TITLE": "Fill in the form below to join",
+        "PURCHASE-CODE": "First Name",
+        "GITHUB-USER": "Last Name",
+        "PURCHASE-CODE-ERROR": "Please enter a First Name",
+        "GITHUB-USER-ERROR": "Please enter Last Name",
+        "SIGNUP": "Apply"
+    }
+}

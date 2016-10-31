@@ -1,0 +1,283 @@
+<br>
+<div flex layout="row" layout-align="center center">
+	<div flex="95" class="md-whiteframe-z1 margin-bottom-10" tri-wizard>
+		<md-toolbar class="md-primary">
+			<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+				<h2>Fill the Form Below</h2>
+			</div>
+		</md-toolbar>
+		<md-tabs class="md-primary" layout-fill md-selected="triWizard.currentStep" md-dynamic-height>
+			<md-tab id="account" ng-disabled="vm.step1">
+				<md-tab-label>
+					<span>STEP&nbsp;&nbsp;</span>
+					<span class="oxy-step-label">1</span>
+				</md-tab-label>
+				<md-tab-body>
+					<md-content class="md-padding">
+						<form name="accountForm" tri-wizard-form novalidate>
+							<div layout="column" layout-align="start start" style="margin:0px;padding:0px;margin-bottom:0">
+								<md-input-container md-no-float style="margin:0px;padding:0px;">
+									<h3><b>Zip code</b></h3>
+									<input type="text" placeholder="zip code" ng-model="vm.zipocde">
+								</md-input-container>
+							</div>
+							<div layout="column" layout-align="start start">
+								<h3><b>Sex</b></h3>
+								<md-radio-group ng-model="vm.sex" layout="row" layout-align="start center">
+									<md-radio-button value="Male" class="md-primary">Male</md-radio-button>
+									<md-radio-button value="Female" class="md-primary">Female</md-radio-button>
+								</md-radio-group>
+							</div>
+							<br>
+							<div layout="column" layout-align="start start">
+								<h3><b>Date of Birth</b></h3>
+								<mdp-date-picker mdp-placeholder="Date" ng-model="vm.dob"></mdp-date-picker>
+							</div>
+							<!--<br>-->
+							<!--<div layout="column" layout-align="start start">-->
+							<!--<p>-->
+							<!--To help people say how good or bad a health state is,we have drawn a scale  (rather like a thermometer) on which the best state you can imagine is marked 100 and the worst state you can imagine is marked 0-->
+							<!--</p>-->
+							<!--<p>-->
+							<!--We would like you to indicate on this scale how good or bad your own health is today, in your opinion. Please do this by drawing a line from the box below to whichever point on the scale indicates how good or bad your health state is today-->
+							<!--</p>-->
+							<!--<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>-->
+							<!--</div>-->
+						</form>
+					</md-content>
+				</md-tab-body>
+			</md-tab>
+			<md-tab id="address" ng-disabled="vm.step2">
+				<md-tab-label>
+					<span>STEP&nbsp;&nbsp;</span>
+					<span class="oxy-step-label">2</span>
+				</md-tab-label>
+				<md-tab-body>
+					<md-content class="md-padding">
+						<form name="addressForm" tri-wizard-form>
+							<div layout="column" layout-align="start start">
+								<h3><b>Do you have currently any medical conditions given below</b></h3>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Hypertension : </b>
+									<md-radio-group ng-model="vm.hypertension" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Diabetes mellitus- Insulin treated : </b>
+									<md-radio-group ng-model="vm.insulin" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Diabetes mellitus – non insulin treated : </b>
+									<md-radio-group ng-model="vm.noninsulin" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Asthma : </b>
+									<md-radio-group ng-model="vm.asthma" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Epilepsy : </b>
+									<md-radio-group ng-model="vm.epilepsy" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Anaemia : </b>
+									<md-radio-group ng-model="vm.anaemia" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Renal conditions : </b>
+									<md-radio-group ng-model="vm.renal" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Cardiac conditions : </b>
+									<md-radio-group ng-model="vm.cardiac" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Major accident / Injury : </b>
+									<md-radio-group ng-model="vm.accident" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+
+								<div layout="row" layout-padding layout-align="start center">
+									<b>Mental health illness : </b>
+									<md-radio-group ng-model="vm.mentalhealth" layout="row" layout-align="start start">
+										<md-radio-button value="Yes" class="md-primary radio-bottom-margin">Yes</md-radio-button>
+										<md-radio-button value="No" class="md-primary radio-bottom-margin">No</md-radio-button>
+										<md-radio-button value="Unsure" class="md-primary radio-bottom-margin">Unsure</md-radio-button>
+									</md-radio-group>
+								</div>
+							</div>
+						</form>
+					</md-content>
+				</md-tab-body>
+			</md-tab>
+			<md-tab id="billing" ng-disabled="vm.step3">
+				<md-tab-label>
+					<span>STEP&nbsp;&nbsp;</span>
+					<span class="oxy-step-label">3</span>
+				</md-tab-label>
+				<md-tab-body>
+					<md-content class="md-padding">
+						<form name="billingForm" tri-wizard-form>
+							<div layout="column" layout-align="start start">
+								<h3><b>By placing a tick in one box in each group below, please indicate which
+                                    statements best describe your own health state today</b></h3>
+
+								<div layout="column" layout-align="start start">
+									<h4><b>Mobility</b></h4>
+									<md-radio-group ng-model="vm.mobility" layout="column" layout-align="start start">
+										<md-radio-button value="I have no problems in walking around" class="md-primary radio-bottom-margin">I have no problems in walking around
+										</md-radio-button>
+										<md-radio-button value="I have some problems in walking around" class="md-primary radio-bottom-margin">I have some problems in walking around
+										</md-radio-button>
+										<md-radio-button value="I am confined to bed" class="md-primary radio-bottom-margin">I am confined to bed
+										</md-radio-button>
+									</md-radio-group>
+								</div>
+								<div layout="column" layout-align="start start">
+									<h4><b>Personal Care</b></h4>
+									<md-radio-group ng-model="vm.personal" layout="column" layout-align="start start">
+										<md-radio-button value="I have no problems with personal care" class="md-primary radio-bottom-margin">I have no problems with personal care
+										</md-radio-button>
+										<md-radio-button value="I have some problems washing or dressing myself" class="md-primary radio-bottom-margin">I have some problems washing or dressing myself
+										</md-radio-button>
+										<md-radio-button value="I am unable to wash or dress myself" class="md-primary radio-bottom-margin">
+											I am unable to wash or dress myself
+										</md-radio-button>
+									</md-radio-group>
+								</div>
+								<div layout="column" layout-align="start start">
+									<h4><b>Usual Activities (e.g. work, study, housework, family or leisure
+                                        activities)</b></h4>
+									<md-radio-group ng-model="vm.activities" layout="column" layout-align="start start">
+										<md-radio-button value="I have no problems with performing my usual activities" class="md-primary radio-bottom-margin">I have no problems with performing my usual activities
+										</md-radio-button>
+										<md-radio-button value="I have some problems with performing my usual activities" class="md-primary radio-bottom-margin">I have some problems with performing my usual activities
+										</md-radio-button>
+										<md-radio-button value="I am unable to perform my usual activities" class="md-primary radio-bottom-margin">I am unable to perform my usual activities
+										</md-radio-button>
+									</md-radio-group>
+								</div>
+								<div layout="column" layout-align="start start">
+									<h4><b>Pain/Discomfort</b></h4>
+									<md-radio-group ng-model="vm.pain" layout="column" layout-align="start start">
+										<md-radio-button value="I have no pain or discomfort" class="md-primary radio-bottom-margin">I have no pain or discomfort
+										</md-radio-button>
+										<md-radio-button value="I have moderate pain or discomfort" class="md-primary radio-bottom-margin">I have moderate pain or discomfort
+										</md-radio-button>
+										<md-radio-button value="I have extreme pain or discomfort" class="md-primary radio-bottom-margin">I have extreme pain or discomfort
+										</md-radio-button>
+									</md-radio-group>
+								</div>
+								<div layout="column" layout-align="start start">
+									<h4><b>Anxiety/Depression</b></h4>
+									<md-radio-group ng-model="vm.anxiety" layout="column" layout-align="start start">
+										<md-radio-button value="I am not anxious or depressed" class="md-primary radio-bottom-margin">I am not anxious or depressed
+										</md-radio-button>
+										<md-radio-button value="I am moderately anxious or depressed" class="md-primary radio-bottom-margin">I am moderately anxious or depressed
+										</md-radio-button>
+										<md-radio-button value="I am extremely anxious or depressed" class="md-primary radio-bottom-margin">
+											I am extremely anxious or depressed
+										</md-radio-button>
+									</md-radio-group>
+								</div>
+							</div>
+						</form>
+					</md-content>
+				</md-tab-body>
+			</md-tab>
+			<md-tab id="confirm" ng-disabled="vm.step4">
+				<md-tab-label>
+					<span>STEP&nbsp;&nbsp;</span>
+					<span class="oxy-step-label">4</span>
+				</md-tab-label>
+				<md-tab-body>
+					<md-content class="md-padding" layout="row">
+						<div layout="column" flex="50">
+							<p>
+								To help people say how good or bad a health state is,we have drawn a scale (rather like a thermometer) on which the best
+								state you can imagine is marked 100 and the worst state you can imagine is marked 0
+							</p>
+							<p>
+								We would like you to indicate on this scale how good or bad your own health is today, in your opinion. Please do this by
+								drawing a line from the box below to whichever point on the scale indicates how good or bad your health state is
+								today
+							</p>
+						</div>
+						<div layout="column" style="height: 400px" flex="50" layout-align="center center">
+							<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+						</div>
+						<!--<div class="padding-40" flex layout="column" layout-align="center center">-->
+						<!--<img class="" src="assets/images/logo.png" height="20%" width="20%">-->
+						<!--<h2 class="md-display-2">Thank You for Joining With Us</h2>-->
+						<!--<md-button class="md-raised md-primary" ng-click="vm.moveToNext()">Start Survey</md-button>-->
+						<!--</div>-->
+					</md-content>
+				</md-tab-body>
+			</md-tab>
+			<md-tab ng-disabled="vm.step5">
+				<md-tab-label>
+					<span>STEP&nbsp;&nbsp;</span>
+					<span class="oxy-step-label">5</span>
+				</md-tab-label>
+				<md-tab-body>
+					<md-content class="md-padding">
+						<div class="padding-40" flex layout="column" layout-align="center center">
+							<img class="" src="assets/images/logo.png" height="20%" width="20%">
+							<h2 class="md-display-2">{{vm.message}}</h2>
+							<md-button class="md-raised md-primary" ng-show="vm.canProceed" ng-click="vm.moveToNext()">Proceed to the game</md-button>
+							<!--<md-button class="md-raised md-primary" ng-show="!vm.canProceed" ng-click="Restart()">Restart Survey</md-button>-->
+						</div>
+					</md-content>
+				</md-tab-body>
+			</md-tab>
+		</md-tabs>
+		<div class="wizard-navbar" layout-fill layout-padding layout="row" layout-align="end center">
+			<md-button class="md-primary md-raised" ng-click="triWizard.prevStep()" ng-hide="triWizard.currentStep > 3" ng-disabled="triWizard.prevStepDisabled()">Previous</md-button>
+			<md-button class="md-primary md-raised" ng-click="triWizard.nextStep();manageTabs(triWizard.currentStep)" ng-hide="triWizard.currentStep > 2"
+				ng-disabled="vm.zipocde == '' || vm.dob == '' || vm.dob == undefined">Next</md-button>
+			<md-button class="md-accent md-raised" ng-click="manageTabs('4');triWizard.currentStep = 4;saveDetails()" ng-show="triWizard.currentStep == 3">Save</md-button>
+		</div>
+	</div>
+</div>
