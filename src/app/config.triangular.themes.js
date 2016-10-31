@@ -46,7 +46,7 @@
             'contrastDefaultColor': 'light'
         });
 
-        var triCyanMap = $mdThemingProvider.extendPalette('cyan', {
+        var triCyanMap = $mdThemingProvider.extendPalette('red', {
             'contrastDefaultColor': 'light',
             'contrastLightColors': '500 700 800 900',
             'contrastStrongLightColors': '500 700 800 900'

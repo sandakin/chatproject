@@ -2,8 +2,7 @@
     'use strict';
 
     angular
-        .module('game-module', [
-        ])
+        .module('app.game', ['mdPickers'])
         .constant('AUCTIONEER_INTRODUCTION_MESSAGES', {
             "WELCOME_TO_AUTION": 'Welcome to the auction',
             "AUCTION_INTRO_MSGS": [
@@ -34,5 +33,8 @@
                 user_address: 'address 1',
                 user_remaining_money: 20.5
             }
+        })
+        .constant('API_BROADCAST_CONSTANTS', {
+            'API_GET_ALL_CARDS': 'API_GET_ALL_CARDS'
         });
 })();

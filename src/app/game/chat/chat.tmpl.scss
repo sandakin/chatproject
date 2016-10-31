@@ -90,6 +90,110 @@
 //chat bottom bar styles-------------------
 
 
+//health card preview styles---------------------
+.health-card-preview {
+    position: absolute;
+    top: 25%;
+    left: 34%;
+    width: 45%;
+    height: 39%;
+    padding: 4px;
+    background: #DB5554;
+    -webkit-border-radius: 19px;
+    -moz-border-radius: 19px;
+    border-radius: 19px;
+    border: #DBCABC solid 3px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.health-card-preview {
+    overflow: hidden !important;
+    height: 48% !important;
+}
+.health-card-preview .preview-header {
+    max-height: 15%;
+    width: 100%;
+    border-bottom: #DBCABC solid 3px;
+    padding: 5px;
+
+    color: white;
+    font-family: 'arial';
+    font-size: 1.5em !important;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+.health-card-preview .preview-body {
+    width: 100%;
+    max-height: 85%;
+    height: 85%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color: #FCC8C8;
+    font-family: 'comic sans';
+    font-size: 1.2em !important;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.health-card-preview .preview-body .preview-lines:before {
+    content:"• ";
+    text-align: left;
+    padding-left: 8px;
+}
+//health card preview styles---------------------
+
+
+//purchased health card preview styles---------------------
+.health-card-preview.purchased {
+    z-index: 11 !important;
+    left: -50px !important;
+    bottom: 10px;
+}
+.health-card-preview.purchased .fa-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: white;
+
+    cursor: pointer;
+}
+// .health-card-preview {
+//     overflow: hidden !important;
+//     height: 48% !important;
+// }
+// .health-card-preview .preview-header {
+//     max-height: 15%;
+//     width: 100%;
+//     border-bottom: #DBCABC solid 3px;
+//     padding: 5px;
+
+//     color: white;
+//     font-family: 'arial';
+//     font-size: 1.5em !important;
+//     font-weight: bold;
+//     text-align: center;
+//     vertical-align: middle;
+// }
+// .health-card-preview .preview-body {
+//     width: 100%;
+//     max-height: 85%;
+//     height: 85%;
+
+//     overflow-x: hidden;
+//     overflow-y: auto;
+
+//     color: #FCC8C8;
+//     font-family: 'comic sans';
+//     font-size: 1.2em !important;
+//     font-weight: bold;
+//     vertical-align: middle;
+// }
+//purchased health card preview styles---------------------
+
+
 //chat bubble styles---------------------
 .chat-bubble {
     position: absolute;
@@ -103,12 +207,15 @@
     -moz-border-radius: 19px;
     border-radius: 19px;
     border: #DBCABC solid 3px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
     
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+    // -webkit-transition: all 0.3s ease;
+    // -moz-transition: all 0.3s ease;
+    // -ms-transition: all 0.3s ease;
+    // -o-transition: all 0.3s ease;
+    // transition: all 0.3s ease;
 }
 
 .chat-bubble:after {
@@ -227,14 +334,24 @@
     -o-transform: rotate(-20deg);
     -ms-transform: rotate(-20deg);
     -moz-transform: rotate(-20deg);
+
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 .chat-health-card:hover {
+    background-color: lightcoral;
+    border: 2px solid greenyellow;
+    color: #EFEDB2;
+
+    overflow-y: auto;
+}
+.chat-health-card.card-selected {
     background-color: orange;
     border: 2px solid greenyellow;
     color: #EFEDB2;
 }
 .chat-health-card-txt {
-    font-size: 2.3em !important;
+    font-size: 1.5em !important;
 }
 .card-no-1 {
     left: 5%;
@@ -531,5 +648,12 @@ input.textarea {
     background: #fafafa;
 }
 //chat box styles---------------------
+
+
+
+    #object{
+        background-color: #fe5652;
+        visibility: hidden;
+    }
 
 //chat styles-----------------

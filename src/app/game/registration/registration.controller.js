@@ -58,7 +58,7 @@
         });
 
         function moveToNext() {
-            $state.go('triangular.admin-default-no-scroll.game-loading');
+            $state.go('triangular.admin-default-no-scroll.game-splash');
         }
 
         $scope.Restart = function () {
@@ -106,46 +106,47 @@
         };
 
         $scope.saveDetails = function () {
-            var ng = new (api.participant())();
+            ToastService.showToast('Registered user successfully');
+            // var ng = new (api.participant())();
 
-            ng.health = $scope.slider.value;
-            ng.sex = vm.sex;
-            ng.hypertension = vm.hypertension;
-            ng.insulin = vm.insulin;
-            ng.noninsulin = vm.noninsulin;
-            ng.asthma = vm.asthma;
-            ng.epilepsy = vm.epilepsy;
-            ng.anaemia = vm.anaemia;
-            ng.renal = vm.renal;
-            ng.cardiac = vm.cardiac;
-            ng.accident = vm.accident;
-            ng.mentalhealth = vm.mentalhealth;
-            ng.gastro = vm.gastro;
-            ng.skin = vm.skin;
-            ng.cancer = vm.cancer;
-            ng.other = vm.other;
+            // ng.health = $scope.slider.value;
+            // ng.sex = vm.sex;
+            // ng.hypertension = vm.hypertension;
+            // ng.insulin = vm.insulin;
+            // ng.noninsulin = vm.noninsulin;
+            // ng.asthma = vm.asthma;
+            // ng.epilepsy = vm.epilepsy;
+            // ng.anaemia = vm.anaemia;
+            // ng.renal = vm.renal;
+            // ng.cardiac = vm.cardiac;
+            // ng.accident = vm.accident;
+            // ng.mentalhealth = vm.mentalhealth;
+            // ng.gastro = vm.gastro;
+            // ng.skin = vm.skin;
+            // ng.cancer = vm.cancer;
+            // ng.other = vm.other;
 
-            ng.mobility = vm.mobility;
-            ng.personal = vm.personal;
-            ng.activities = vm.activities;
-            ng.pain = vm.pain;
-            ng.anxiety = vm.anxiety;
+            // ng.mobility = vm.mobility;
+            // ng.personal = vm.personal;
+            // ng.activities = vm.activities;
+            // ng.pain = vm.pain;
+            // ng.anxiety = vm.anxiety;
 
-            ng.zipocde = vm.zipocde;
-            ng.dob = (vm.dob).getFullYear() + "-" + ((vm.dob).getMonth() + 1) + "-" + (vm.dob).getDate();
+            // ng.zipocde = vm.zipocde;
+            // ng.dob = (vm.dob).getFullYear() + "-" + ((vm.dob).getMonth() + 1) + "-" + (vm.dob).getDate();
 
-            ng.$save().then(function (data) {
-                console.log('##########################', data);
-                $cookies.put('user', data.id);
-                vm.message = 'Thank You for Joining With Us';
-                vm.canProceed = true;
-                ToastService.showToast('Registered user successfully');
-                // $state.go('triangular.admin-default-no-scroll.game-loading');
-            }, function () {
-                vm.message = 'Sorry We Can Not Register You';
-                vm.canProceed = false;
-                ToastService.showToast('Failed to register user');
-            })
+            // ng.$save().then(function (data) {
+            //     console.log('##########################', data);
+            $cookies.put('user', 12);
+            vm.message = 'Thank You for Joining With Us';
+            vm.canProceed = true;
+            //     ToastService.showToast('Registered user successfully');
+            //     // $state.go('triangular.admin-default-no-scroll.game-loading');
+            // }, function () {
+            //     vm.message = 'Sorry We Can Not Register You';
+            //     vm.canProceed = false;
+            //     ToastService.showToast('Failed to register user');
+            // })
         };
     }
 })();

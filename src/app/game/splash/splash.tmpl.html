@@ -1,0 +1,44 @@
+<style>
+	canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		position: fixed;
+		z-index: -1;
+		background-color: black;
+	}
+</style>
+<!-- <md-content class="" style="background-color: black;"> -->
+<div layout="row" layout-align="center center" class="splash-container">
+	<img id="splash-img" ng-src="assets/images/splash/bidding_people_1.png" style="z-index:0;" />
+	<!-- 		<img id="splash-img-1" ng-src="assets/images/splash/bidding_img_1.png" style="z-index:0;"/> -->
+	<img id="splash-img-2" ng-src="assets/images/splash/bidding_img_2.png" style="z-index:0;" />
+	<img id="splash-img-female" ng-src="assets/images/splash/bidding_people_female.png" />
+	<!-- 		<img id="splash-img-bid-ico-1" ng-src="assets/images/splash/bidding_ico_1.png" style="z-index:0;"/> -->
+	<!-- 		<img id="splash-img-bid-ico-2" ng-src="assets/images/splash/bidding_ico_3.png" style="z-index:0;"/> -->
+	<md-button class="md-raised md-primary splash-start-button" ng-click="vm.enterBiddingRoom();">Enter to the Bidding Room</md-button>
+	<img id="splash-img-male" ng-src="assets/images/splash/bidding_people_male.png" />
+
+</div>
+<div id="splash-img-bubble-left">
+	<h4>Do you want money??</h4>
+</div>
+<div id="splash-img-bubble-right">
+	<h4>Bid for Life cards now</h4>
+</div>
+<!-- </md-content> -->
+<div class="page_container">
+	<canvas width="100%" height="100%" class="snow"></canvas>
+</div>
+<script type="text/javascript">
+		$(document).ready( function() {
+	    $("canvas.snow").let_it_snow({
+	      speed: 1,
+	      size: 15,
+	      count: 100,
+	      image: "assets/images/falling/img/coin.png"
+	    });
+	  });    
+</script>

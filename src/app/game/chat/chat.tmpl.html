@@ -1,0 +1,233 @@
+<md-content class="" style="background-color: black; overflow: hidden;" ng-init="vm.init($event);">
+	<div layout="row" style="overflow: hidden;">
+		<div style="width: 30%; height: 100vh; background: #e5e5e5; overflow: auto;">
+			<div class="menu">
+				<div class="back">
+					<i class="fa fa-chevron-left" ng-click="vm.goBack();"></i>
+					<img src="assets/images/avatars/avatar-1.png" draggable="false" />
+				</div>
+				<div class="name">{{getUserNickName()}}</div>
+				<!--<div class="last">18:09</div>-->
+			</div>
+			<div class="chat">
+				<div class="day">Open Round 1</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '23.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '18.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '21.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '8.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '10.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 1 Results</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to low bid price in previous round.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 2</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '23.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '18.5AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '21.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I bid '10.0AUD' for this card</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<div class="day">Open Round 2 Results</div>
+				<li class="other">
+					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to low bid price in previous round.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+				<li class="self">
+					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
+					<div class="msg">
+						<p>I'm out of the compitition due to purchasing 2 health cards.</p>
+						<time>20:17 / no name</time>
+					</div>
+				</li>
+			</div>
+			<!--<div layout="row" class="chat-message-send-container">
+				<input class="textarea" type="text" placeholder="Type here!" />
+				<md-button class="md-fab md-mini md-primary chat-send-btn" aria-label="Use Android">
+					<md-icon md-font-icon="zmdi zmdi-mail-send" style="color: greenyellow; text-align: center;"></md-icon>
+				</md-button>
+			</div>-->
+		</div>
+		<div layout="row" layout-align="center center" class="chat-container">
+			<img ng-src="assets/images/chat/chat_room_back_2.png" class="chat-container-back-img" />
+			<div ng-repeat="healthCard in vm.availableHealthCards" ng-class="'chat-health-card card-no-' + healthCard.id + ' ' + ((healthCard.id === vm.currentlySelectedHealthCard.id) ? 'card-selected': '')">
+				<div class="chat-health-card-txt">{{healthCard.name}}</div>
+			</div>
+
+			<div ng-class="vm.auctioneerChatBubbleEffectClass" ng-hide="vm.auctioneerChatBubbleHide" class="chat-bubble">
+				<div class="chat-bubble-content">{{vm.auctioneerChatBubbleMsg}}</div>
+			</div>
+			<!--<div layout="row" layout-xs="column" layout-align="space-around center" layout-margin>
+				<tri-widget flex title="Amber Widget" subtitle="using the 300 hue" title-position="top" palette-background="amber:300">
+					<img src="assets/images/backgrounds/material-backgrounds/mb-bg-02.jpg" />
+				</tri-widget>
+			</div>-->
+
+			<div ng-show="vm.currentlySelectedHealthCard != null" class="health-card-preview" ng-class="(vm.currentlySelectedHealthCard != null) ? 'bounce' : ''">
+				<div class="preview-header">
+					{{vm.currentlySelectedHealthCard.name}}
+				</div>
+				<div class="preview-body">
+					<h2 ng-repeat="state in vm.currentlySelectedHealthCard.states" class="preview-lines">{{state}}</h2>
+				</div>
+			</div>
+
+			<img id="chat-img" ng-src="assets/images/chat/auctioneer_desk.png" />
+			<div class="chat-bottom-bar" layout="row">
+				<div class="selected-card">You are selected <br/>
+					<div class="selected-card-no">{{(vm.currentlySelectedHealthCard == null) ? 'no card' : 'Card' + vm.currentlySelectedHealthCard.name}}</div>
+				</div>
+				<div class="place-bid">Place Your bid here <br/>
+					<div layout="row" class="place-bid-inputs">
+						<input type="number" placeholder="Enter BID value" max="100" min="0.5" step="0.5" ng-value="vm.currentlySelectedHealthCard.bid_value"
+						/>
+						<md-button class="md-raised md-warn">Submit Value</md-button>
+					</div>
+				</div>
+				<div class="remaining-fund">Remaining value <br/>
+					<div class="remaining-fund-value">{{vm.remainingUserValue}} AUD</div>
+				</div>
+			</div>
+
+
+			<!--shopping cart icon directives-->
+			<div class="custom-shopping-cart-icon">
+				<div class="contain-icon icon-hook" ng-class="(vm.isOpenShoppingCart) ? 'active' : ''" ng-click="openOrCloseShoppingCart();">
+					<md-tooltip md-direction="left">
+						Open my Shopping basket
+					</md-tooltip>
+					<!--Begin First Cart Icon-->
+					<svg class="cart-icon-1" version="1.1" width="150px" height="150px" viewBox="0 0 90.156 89.89">
+						<path class="main-path" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							d="M14.973,26.021V15.296c0-1.109-0.865-2.292-1.922-2.628L1.49,8.99 M62.354,55.639c0,1.109-0.101,2.236-0.224,2.504
+          c-0.123,0.268-1.684,0.487-2.793,0.487H17.989c-1.109,0-2.242-0.098-2.517-0.218c-0.275-0.12-0.5-1.664-0.5-2.773V23.273
+          c0-1.109,0.101-2.236,0.224-2.504c0.123-0.268,1.684-0.487,2.793-0.487h41.348c1.109,0,2.242,0.098,2.517,0.218  c0.275,0.12,0.5,1.664,0.5,2.773V55.639z"
+						/>
+						<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							x1="30.863" y1="20.74" x2="30.863" y2="58.63" />
+						<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							x1="46.837" y1="20.74" x2="46.837" y2="58.63" />
+						<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							x1="15.973" y1="33.308" x2="61.24" y2="33.308" />
+						<line fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							x1="15.973" y1="46.285" x2="61.125" y2="46.285" />
+						<circle class="wheel" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							cx="23.442" cy="64.554" r="5.924" />
+						<circle class="wheel" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							cx="53.314" cy="64.554" r="5.924" />
+						<path class="outer-plus-1" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-miterlimit="10" d="M67.378,52.665
+          c1.29-0.143,2.615-0.147,3.959,0.001c9.837,1.087,16.93,9.943,15.843,19.78s-9.943,16.93-19.78,15.843
+          c-7.378-0.815-13.212-6.001-15.21-12.692" />
+						<path class="cart-plus-1" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							d="
+          M61.516,70.556h17.695 M70.364,61.708v17.695" />
+						<path class="check-1" fill="none" stroke="#7aa23f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+							d="
+          M60.207,73.377l6.817,6.817 M81.273,64.554l-14.249,15.64" />
+					</svg>
+					<!--End First Cart Icon-->
+					<img class="apple-1" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/80625/apple.svg" alt="Apple Icon" />
+				</div>
+			</div>
+			<!--shopping cart icon directives-->
+
+			<!--health cards cart directives-->
+			<div class="container" ng-show="vm.isOpenShoppingCart">
+				<div class="custom-shopping-cards-back"></div>
+				<section class="main">
+					<div id="sb-container" class="sb-container">
+						<div ng-repeat="item in vm.userShoppingCart">
+							<h4 ng-show="item.id === 0"><span>Bucket</span></h4>
+							<span class="sb-toggle" ng-show="item.id === 0">Cards You purchased</span>
+							<h5 ng-show="item.id === 0"><span>MY CART</span></h5>
+
+							<h5 ng-show="item.id != 0"><span>MY CART</span></h5>
+							<i ng-show="item.id != 0" class="fa fa-shopping-cart fa-4x" ng-click="vm.selectedPurchasedCard = item;"></i>
+							<h4 ng-show="item.id != 0"><span>{{item.name}}</span></h4>
+						</div>
+
+					</div>
+				</section>
+			</div>
+
+			<!--selected health card states-->
+			<div ng-show="vm.selectedPurchasedCard != null" class="health-card-preview purchased" ng-class="(vm.selectedPurchasedCard != null) ? 'expandOpen' : ''">
+				<i class="fa fa-close" ng-click="vm.selectedPurchasedCard = null;"></i>
+				<div class="preview-header">
+					{{vm.selectedPurchasedCard.name}}
+				</div>
+				<div class="preview-body">
+					<h2 ng-repeat="state in vm.selectedPurchasedCard.states" class="preview-lines">{{state}}</h2>
+				</div>
+			</div>
+			<!--selected health card states-->
+
+			<!--health cards cart directives-->
+
+
+		</div>
+	</div>
+</md-content>
+
+<script type="text/javascript">
+	$(function() {
+	});
+</script>

@@ -1,0 +1,115 @@
+/* Basic Styling */
+.custom-shopping-cart-icon {
+  position: absolute;
+  bottom: 28%;
+  right: 2%;
+
+  z-index: 11;
+}
+.custom-shopping-cart-icon:hover {
+  cursor: pointer;
+}
+
+.custom-shopping-cart-icon .contain-icon {
+  position: relative;
+  display: block;
+  margin: auto;
+  padding-top: 50px;
+  text-decoration: none;
+  color: white;
+  width: 150px;
+  height: 150px;
+}
+
+.custom-shopping-cart-icon .contain-icon:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+.custom-shopping-cart-icon .contain-icon:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.custom-shopping-cart-icon .icon-hook {
+  position: relative;
+}
+
+.custom-shopping-cart-icon svg {
+  position: absolute;
+  z-index: 5;
+}
+
+.custom-shopping-cart-icon .icon-hook:after {
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-shopping-cart-icon .icon-hook > svg {
+  pointer-events: none;
+}
+
+.custom-shopping-cart-icon .contain-card {
+  padding-top: 75px;
+  height: 350px;
+}
+
+/* Cart Demo 1 */
+.custom-shopping-cart-icon .check-1 {
+  opacity: 0;
+  -webkit-transform-origin: center;
+}
+
+.custom-shopping-cart-icon .apple-1 {
+  position: absolute;
+  opacity: 0;
+  top: 30px;
+  left: 42px;
+  width: 45px;
+  -webkit-transform: rotate(-40deg);
+}
+
+.custom-shopping-cart-icon .active .apple-1 {
+  -webkit-animation: add-apple-1 2s forwards;
+}
+
+.custom-shopping-cart-icon .active .cart-plus-1 {
+  -webkit-animation: added 1s forwards;
+}
+
+.custom-shopping-cart-icon .active .check-1 {
+  -webkit-animation: checked 1s forwards;
+}
+
+
+@-webkit-keyframes add-apple-1 {
+  50% {
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: translateY(57px);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes added {
+  1% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes checked {
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(1.5);
+  }
+  100% {
+    opacity: 1;
+  }
+}
