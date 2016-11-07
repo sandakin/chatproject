@@ -3,7 +3,7 @@
 
     angular
         .module('triangular')
-        .service('CommonService', ['$rootScope', '$timeout', '$window', '$location', 'ToastService', '$cookies', '$state', 'api', 'API_BROADCAST_CONSTANTS', function ($rootScope, $timeout, $window, $location, ToastService, $cookies, $state, api, API_BROADCAST_CONSTANTS) {
+        .service('CommonService', ['$rootScope', '$timeout', '$window', '$location', 'ToastService', '$cookies', '$state', 'api', 'API_BROADCAST_CONSTANTS', 'AUCTION_USER_DATA', 'USER_BIDDING_ABILITY', function ($rootScope, $timeout, $window, $location, ToastService, $cookies, $state, api, API_BROADCAST_CONSTANTS, AUCTION_USER_DATA, USER_BIDDING_ABILITY) {
 
             //store all functions that returns from this service
             var all_functions = {};
@@ -39,8 +39,10 @@
                     if ($location.url() && $location.url()) {
                         switch ($location.url()) {
                             case '/registration':
+                                // if (!all_functions.isAuthCookiesMissing())
+                                //     $state.go('triangular.admin-default-no-scroll.game-chat');
                                 break;
-                            case '/game/splash':
+                            case '/game/cards':
                                 if (all_functions.isAuthCookiesMissing()) {
                                     openRegistrationPage();
                                 }
@@ -68,31 +70,30 @@
                 ToastService.showToast('Please create a account before play');
             }
 
+            //get minimum valued item from the item list
+            Array.prototype.hasMin = function (attrib) {
+                return this.reduce(function (prev, curr) {
+                    return parseFloat(prev[attrib]) < parseFloat(curr[attrib]) ? prev : curr;
+                });
+            }
+
             //filter and get only first 10 cards
             //if allLowestCard is enabled, return the card with lowest bidding value
-            function getFilteredCards(allCards, isLowestCard) {
+            function getFilteredCards(allCards) {
                 if (!allCards || allCards === null)
                     return [];
 
-                if (allCards.length <= 10 && !isLowestCard)
-                    return allCards;
-                if (allCards.length <= 10 && isLowestCard)
-                    return allCards[allCards.length - 1];
-
                 var topTenCards = [];
                 var count = 0;
+                var min = allHealthCards.hasMin('default_bid');
                 for (count = 0; count < allCards.length; count++) {
 
-                    //return the card with lowest bidding value
-                    if (isLowestCard && count === 9)
-                        return allCards[count];
-
                     //return top 10 helth cards
-                    topTenCards.push(allCards[count]);
-                    if (!isLowestCard && count === 8) {
-                        return topTenCards;
-                    }
+                    if (min.id != allCards[count].id)
+                        topTenCards.push(allCards[count]);
                 }
+
+                return topTenCards;
             }
 
 
@@ -124,7 +125,7 @@
                     getInitialHealthCard: function () {
 
                         if (allHealthCards && allHealthCards != null && Array.isArray(allHealthCards) && allHealthCards.length > 0)
-                            return getFilteredCards(allHealthCards, true);
+                            return allHealthCards.hasMin('default_bid');
                         else
                             return null;
 
@@ -137,9 +138,38 @@
                         },
                         getCards: function () {
 
-                            userPurchasedHealthCards.push(defaultCardTemplate);
+                            // userPurchasedHealthCards.push(defaultCardTemplate);
                             return userPurchasedHealthCards;
                         }
+                    }
+                },
+                //create all users array
+                allUsers: {
+                    setAllUsers: function () {
+                        var name = $cookies.get('nickName');
+                        AUCTION_USER_DATA[0].user_name = name;
+                    },
+                    getAllUsers: function () {
+                        return AUCTION_USER_DATA;
+                    },
+                    getAllRemainingUsers: function (exclude) {
+
+                        var all_remaining_users = [];
+                        angular.forEach(AUCTION_USER_DATA, function (user) {
+                            if (user.userBiddingAbility != exclude && user.userBiddingAbility != USER_BIDDING_ABILITY.TERMINATE_FROM_TOURNAMENT) {
+                                all_remaining_users.push(user);
+                            }
+                        })
+
+                        return all_remaining_users;
+
+                    },
+                    resetAllUserList: function () {
+                        angular.forEach(AUCTION_USER_DATA, function (user) {
+                            if (user.userBiddingAbility === USER_BIDDING_ABILITY.TERMINATE_FOR_OPEN_ROUND) {
+                                user.userBiddingAbility = USER_BIDDING_ABILITY.NOT_TERMINATED;
+                            }
+                        })
                     }
                 }
             };

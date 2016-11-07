@@ -42,6 +42,13 @@
                 // set the controller to load for this page
                 controller: 'ChatPageController',
                 controllerAs: 'vm'
+            })
+            .state('triangular.admin-default-no-scroll.game-cards', {
+                url: '/game/cards',
+                templateUrl: 'app/game/healthCards/healthcards.tmpl.html',
+                // set the controller to load for this page
+                controller: 'HealthCardController',
+                controllerAs: 'vm'
             });
 
         // triMenuProvider.addMenu({

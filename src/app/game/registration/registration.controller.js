@@ -58,7 +58,8 @@
         });
 
         function moveToNext() {
-            $state.go('triangular.admin-default-no-scroll.game-splash');
+            // $state.go('triangular.admin-default-no-scroll.game-splash');
+            $state.go('triangular.admin-default-no-scroll.game-cards');
         }
 
         $scope.Restart = function () {

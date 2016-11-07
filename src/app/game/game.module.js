@@ -26,15 +26,83 @@
                 { name: '9', value: 'Card 9', id: 9, bid_value: 0.5 }
             ]
         })
-        .constant('AUCTION_USER_DATA', {
-            "CURRENT_USER": {
+        .constant('AUCTION_USER_DATA', [
+            {
                 user_id: 1,
                 user_name: 'current user',
                 user_address: 'address 1',
-                user_remaining_money: 20.5
+                user_remaining_money: 100.00,
+                user_type: 'User',
+                user_bid_values: [
+                    {
+                        round: 1,
+                        card: {},
+                        closed_round_value: 0.00,
+                        open_round_value: 0.00,
+                        win: 0,
+                    }
+                ],
+                purchased_cards: [],
+                userBiddingAbility: 2
+            },
+            {
+                user_id: 2,
+                user_name: 'sys 1',
+                user_address: 'address sys 1',
+                user_remaining_money: 100.00,
+                user_type: 'SysUser',
+                user_bid_values: [],
+                purchased_cards: [],
+                userBiddingAbility: 2
+            },
+            {
+                user_id: 3,
+                user_name: 'sys 2',
+                user_address: 'address sys 2',
+                user_remaining_money: 100.00,
+                user_type: 'SysUser',
+                user_bid_values: [],
+                purchased_cards: [],
+                userBiddingAbility: 2
+            },
+            {
+                user_id: 4,
+                user_name: 'sys 3',
+                user_address: 'address sys 3',
+                user_remaining_money: 100.00,
+                user_type: 'SysUser',
+                user_bid_values: [],
+                purchased_cards: [],
+                userBiddingAbility: 2
+            },
+            {
+                user_id: 5,
+                user_name: 'sys 4',
+                user_address: 'address sys 4',
+                user_remaining_money: 100.00,
+                user_type: 'SysUser',
+                user_bid_values: [],
+                purchased_cards: [],
+                userBiddingAbility: 2
             }
-        })
+        ])
         .constant('API_BROADCAST_CONSTANTS', {
             'API_GET_ALL_CARDS': 'API_GET_ALL_CARDS'
+        })
+        .constant('BIDDING_ROUNDS', {
+            'BIDDING_ROUND_CLOSED': 'BIDDING ROUND CLOSED',
+            'BIDDING_ROUND_OPEN': 'BIDDING ROUND OPEN'
+        })
+        .constant('USER_BIDDING_ABILITY', {
+            'TERMINATE_FOR_OPEN_ROUND': 0,
+            'TERMINATE_FROM_TOURNAMENT': 1,
+            'NOT_TERMINATED': 2
+        })
+        .constant('AUCTION_BID_ROUND_WIN_STATES', {
+            'STATE_DROPPED_FROM_CLOSED_ROUND': 0,
+            'STATE_PURCHASED_MAX_CARDS': 1,
+            'STATE_WIN_ROUND': 2,
+            'STATE_WIN_AUCTION': 3,
+            'STATE_BIDDING': 4
         });
 })();

@@ -9,7 +9,7 @@
     function GameSplashController($scope, $timeout, $state, CommonService) {
         var vm = this;
         vm.enterBiddingRoom = function () {
-            $state.go('triangular.admin-default-no-scroll.game-chat');
+            $state.go('triangular.admin-default-no-scroll.registration');
         };
 
         $('.flip').mouseover(function () {

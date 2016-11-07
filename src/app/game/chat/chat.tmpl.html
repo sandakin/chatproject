@@ -1,101 +1,21 @@
 <md-content class="" style="background-color: black; overflow: hidden;" ng-init="vm.init($event);">
 	<div layout="row" style="overflow: hidden;">
-		<div style="width: 30%; height: 100vh; background: #e5e5e5; overflow: auto;">
+		<div id="chat_messages_container" style="width: 30%; height: 100vh; background: #e5e5e5; overflow: auto;">
 			<div class="menu">
 				<div class="back">
 					<i class="fa fa-chevron-left" ng-click="vm.goBack();"></i>
-					<img src="assets/images/avatars/avatar-1.png" draggable="false" />
+					<img src="assets/images/avatars/blank_user.jpg" draggable="false" />
 				</div>
 				<div class="name">{{getUserNickName()}}</div>
 				<!--<div class="last">18:09</div>-->
 			</div>
 			<div class="chat">
-				<div class="day">Open Round 1</div>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
+				<div class="day">{{'round ' + vm.currentRound.bidding_round_no + ' - ' + vm.currentBiddingRoundType}}</div>
+				<li ng-repeat="chat_msg in vm.allUserChatMessages" ng-class="chat_msg.class">
+					<div class="avatar"><img src="assets/images/avatars/blank_user.jpg" draggable="false" /></div>
 					<div class="msg">
-						<p>I bid '23.5AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '18.5AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '21.0AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '8.0AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="self">
-					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '10.0AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<div class="day">Open Round 1 Results</div>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-3.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I'm out of the compitition due to low bid price in previous round.</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<div class="day">Open Round 2</div>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-6.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '23.5AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-5.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '18.5AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '21.0AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="self">
-					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I bid '10.0AUD' for this card</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<div class="day">Open Round 2 Results</div>
-				<li class="other">
-					<div class="avatar"><img src="assets/images/avatars/avatar-4.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I'm out of the compitition due to low bid price in previous round.</p>
-						<time>20:17 / no name</time>
-					</div>
-				</li>
-				<li class="self">
-					<div class="avatar"><img src="assets/images/avatars/avatar-1.png" draggable="false" /></div>
-					<div class="msg">
-						<p>I'm out of the compitition due to purchasing 2 health cards.</p>
-						<time>20:17 / no name</time>
+						<p ng-bind-html="chat_msg.message"></p>
+						<time>{{chat_msg.time}} / {{chat_msg.user}}</time>
 					</div>
 				</li>
 			</div>
@@ -108,7 +28,7 @@
 		</div>
 		<div layout="row" layout-align="center center" class="chat-container">
 			<img ng-src="assets/images/chat/chat_room_back_2.png" class="chat-container-back-img" />
-			<div ng-repeat="healthCard in vm.availableHealthCards" ng-class="'chat-health-card card-no-' + healthCard.id + ' ' + ((healthCard.id === vm.currentlySelectedHealthCard.id) ? 'card-selected': '')">
+			<div ng-repeat="healthCard in vm.availableHealthCards track by $index" ng-class="'chat-health-card card-no-' + ($index + 1) + ' ' + ((healthCard.id === vm.currentlySelectedHealthCard.id) ? 'card-selected': '')">
 				<div class="chat-health-card-txt">{{healthCard.name}}</div>
 			</div>
 
@@ -133,19 +53,30 @@
 			<img id="chat-img" ng-src="assets/images/chat/auctioneer_desk.png" />
 			<div class="chat-bottom-bar" layout="row">
 				<div class="selected-card">You are selected <br/>
-					<div class="selected-card-no">{{(vm.currentlySelectedHealthCard == null) ? 'no card' : 'Card' + vm.currentlySelectedHealthCard.name}}</div>
+					<div class="selected-card-no">{{(vm.currentlySelectedHealthCard == null) ? 'no card' : vm.currentlySelectedHealthCard.name}}</div>
 				</div>
 				<div class="place-bid">Place Your bid here <br/>
-					<div layout="row" class="place-bid-inputs">
-						<input type="number" placeholder="Enter BID value" max="100" min="0.5" step="0.5" ng-value="vm.currentlySelectedHealthCard.bid_value"
-						/>
-						<md-button class="md-raised md-warn">Submit Value</md-button>
-					</div>
+					<form ng-submit="vm.submitBidValue($event);">
+						<div layout="row" class="place-bid-inputs">
+							<input type="number" placeholder="Enter BID value" max="{{vm.remainingUserValue}}" min="{{vm.minimumUserValue}}" step="0.5"
+								ng-model="vm.currentUserBidValue" ng-disabled="!vm.enableUserBidding" required />
+							<md-button type="submit" class="md-raised md-warn" ng-disabled="!vm.enableUserBidding">Submit Value</md-button>
+						</div>
+					</form>
 				</div>
 				<div class="remaining-fund">Remaining value <br/>
 					<div class="remaining-fund-value">{{vm.remainingUserValue}} AUD</div>
 				</div>
 			</div>
+
+			<!--chat continue floating button-->
+			<div class="" ng-show="vm.showNextRoundButton" style="background-color: black; opacity: 0.7; z-index: 19; position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+			</div>
+			<div>
+				<button type="button" ng-show="vm.showNextRoundButton" class="bid-continue btn" ng-click="vm.proceedToNextRound($event);"
+					style="position: absolute; z-index: 20; left: 20%; bottom: 25%;">Proceed to Next Round</button>
+			</div>
+			<!--chat continue floating button-->
 
 
 			<!--shopping cart icon directives-->
@@ -184,13 +115,24 @@
           M60.207,73.377l6.817,6.817 M81.273,64.554l-14.249,15.64" />
 					</svg>
 					<!--End First Cart Icon-->
-					<img class="apple-1" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/80625/apple.svg" alt="Apple Icon" />
+					<!--<img class="apple-1" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/80625/apple.svg" alt="Apple Icon" />-->
+					<div class="apple-1">
+						<div class="chat-health-card-small">
+							<div class="chat-health-card-small-txt">card 1</div>
+						</div>
+						<div class="chat-health-card-small">
+							<div class="chat-health-card-small-txt">card 2</div>
+						</div>
+						<div class="chat-health-card-small">
+							<div class="chat-health-card-small-txt">card 3</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!--shopping cart icon directives-->
 
 			<!--health cards cart directives-->
-			<div class="container" ng-show="vm.isOpenShoppingCart">
+			<!--<div class="container" ng-show="vm.isOpenShoppingCart">
 				<div class="custom-shopping-cards-back"></div>
 				<section class="main">
 					<div id="sb-container" class="sb-container">
@@ -206,6 +148,11 @@
 
 					</div>
 				</section>
+			</div>-->
+			<div ng-show="vm.isOpenShoppingCart" class="chat-health-card-purchased-container">
+				<div ng-repeat="item in vm.userShoppingCart track by $index" class="chat-health-card-purchased" ng-click="(vm.selectedPurchasedCard === item) ? vm.selectedPurchasedCard = null : vm.selectedPurchasedCard = item;">
+					<div class="chat-health-card-txt">{{item.name}}</div>
+				</div>
 			</div>
 
 			<!--selected health card states-->
@@ -219,8 +166,13 @@
 				</div>
 			</div>
 			<!--selected health card states-->
-
 			<!--health cards cart directives-->
+
+			<div style="background-color: transparent; width: 30%; height: 5%; position: absolute; left: 5px; bottom: 16%;">
+				<div style="font-size: 1.3em; color: white; text-align: center;">
+					{{vm.bidNotificationMsg}}
+				</div>
+			</div>
 
 
 		</div>

@@ -10,7 +10,7 @@
         var vm = this;
 
         $timeout(function () {
-            $state.go('triangular.admin-default-no-scroll.registration');
+            $state.go('triangular.admin-default-no-scroll.game-splash');
         }, 7000);
 
         var c = document.getElementById("c");

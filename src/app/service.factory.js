@@ -7,7 +7,7 @@
 
     /* @ngInject */
     function ServiceFactory() {
-        var base_url = 'http://139.59.30.168:8090/api/';
+        var base_url = 'http://139.59.30.168:8096/api/';
         //var base_url = 'http://127.0.0.1:8000/api/';
 
         return {

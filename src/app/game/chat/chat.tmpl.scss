@@ -138,7 +138,7 @@
     font-weight: bold;
     vertical-align: middle;
 }
-.health-card-preview .preview-body .preview-lines:before {
+.preview-lines:before {
     content:"• ";
     text-align: left;
     padding-left: 8px;
@@ -312,7 +312,7 @@
 
 
 //chat health card styles---------------------
-.chat-health-card {
+.chat-health-card, .chat-health-card-small {
     top: 3%;
     z-index: 0;
     position: absolute;
@@ -338,7 +338,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
 }
-.chat-health-card:hover {
+.chat-health-card:hover, .chat-health-card-purchased:hover {
     background-color: lightcoral;
     border: 2px solid greenyellow;
     color: #EFEDB2;
@@ -352,6 +352,10 @@
 }
 .chat-health-card-txt {
     font-size: 1.5em !important;
+}
+.chat-health-card-small-txt {
+    font-size: 0.8em !important;
+    line-height: 0.9em !important;
 }
 .card-no-1 {
     left: 5%;
@@ -380,8 +384,60 @@
 .card-no-9 {
     left: 85%;
 }
-//hcat health card styles---------------------
+//chat health card styles---------------------
 
+//purchased health card styles------------------------
+.chat-health-card-purchased {
+    bottom: 24% !important;
+    z-index: 0;
+    position: absolute;
+    width: 10%;
+    height: 18%;
+    background-color: red;
+    border: 2px solid yellow;
+    border-radius: 8px;
+    cursor: pointer;
+
+    color: #FFFF33;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2em !important;
+    font-weight: bold;
+    text-align: center;
+
+    transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
+    -o-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.chat-health-card-purchased-container {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	background-color: black;
+	opacity: 0.8;
+	z-index: 8;
+}
+
+.chat-health-card-purchased:nth-child(1) {
+    right: 30%;
+}
+.chat-health-card-purchased:nth-child(2) {
+    right: 38%;
+}
+.chat-health-card-purchased:nth-child(3) {
+    right: 46%;
+}
+.chat-health-card-purchased:nth-child(4) {
+    right: 54%;
+}
+//purchased health card styles------------------------
 
 //chat box styles---------------------
 @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
@@ -657,3 +713,37 @@ input.textarea {
     }
 
 //chat styles-----------------
+
+
+//custom bidding round continue button styles------------------------------------
+.bid-continue.btn {
+  background: #f04f4f;
+  background-image: -webkit-linear-gradient(top, #f04f4f, #820c0c);
+  background-image: -moz-linear-gradient(top, #f04f4f, #820c0c);
+  background-image: -ms-linear-gradient(top, #f04f4f, #820c0c);
+  background-image: -o-linear-gradient(top, #f04f4f, #820c0c);
+  background-image: linear-gradient(to bottom, #f04f4f, #820c0c);
+  -webkit-border-radius: 48;
+  -moz-border-radius: 48;
+  border-radius: 48px;
+  text-shadow: 1px 1px 5px #666666;
+  -webkit-box-shadow: 0px 1px 3px #e6bfc4;
+  -moz-box-shadow: 0px 1px 3px #e6bfc4;
+  box-shadow: 0px 1px 3px #e6bfc4;
+  font-family: Arial;
+  color: #dbadb8;
+  font-size: 36px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.bid-continue.btn:hover {
+  background: #fab4b4;
+  background-image: -webkit-linear-gradient(top, #fab4b4, #964444);
+  background-image: -moz-linear-gradient(top, #fab4b4, #964444);
+  background-image: -ms-linear-gradient(top, #fab4b4, #964444);
+  background-image: -o-linear-gradient(top, #fab4b4, #964444);
+  background-image: linear-gradient(to bottom, #fab4b4, #964444);
+  text-decoration: none;
+}
+//custom bidding round continue button styles------------------------------------

@@ -1,0 +1,18 @@
+<md-content class="" style="background-color: black; overflow: hidden;">
+    <div class="drag-container" dragula='"drag-container"' layout="column" layout-xs="column" layout-align="start center" layout-margin>
+
+        <tri-widget ng-repeat="healthCard in vm.availableHealthCards track by $index" title="{{healthCard.name}}" palette-background="blue-grey:500"
+            background="primary" style="min-width: 48% !important;">
+            <h2 ng-repeat="state in healthCard.states" class="preview-lines">{{state}}</h2>
+        </tri-widget>
+
+        <!--<tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:500" background="primary"></tri-widget>
+        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:600" background="primary"></tri-widget>
+        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:700" background="primary"></tri-widget>
+        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:800" background="primary"></tri-widget>-->
+    </div>
+
+    <div>
+        <button type="button" class="bid-continue btn" ng-click="vm.openChat();" style="position: fixed; z-index: 20; right: 2%; top: 80vh;">Start Bidding</button>
+    </div>
+</md-content>
