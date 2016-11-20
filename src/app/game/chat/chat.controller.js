@@ -6,7 +6,7 @@
         .controller('ChatPageController', ChatPageController);
 
     /* @ngInject */
-    function ChatPageController($scope, $cookies, $mdDialog, $timeout, $state, $filter, CommonService, ToastService, api, BiddingService, AUCTIONEER_INTRODUCTION_MESSAGES, AUCTION_USER_DATA, API_BROADCAST_CONSTANTS, BIDDING_ROUNDS, USER_BIDDING_ABILITY, AUCTION_BID_ROUND_WIN_STATES) {
+    function ChatPageController($location, $scope, $cookies, $mdDialog, $timeout, $state, $filter, CommonService, ToastService, api, BiddingService, AUCTIONEER_INTRODUCTION_MESSAGES, API_BROADCAST_CONSTANTS, BIDDING_ROUND_MAX_LIMIT) {
         var vm = this;
 
         //auctioneer's chat bubble message
@@ -20,7 +20,7 @@
         //currently selected health card
         vm.currentlySelectedHealthCard = null;
         //current logged user
-        vm.currentLoggedUser = AUCTION_USER_DATA[0];
+        vm.currentLoggedUser = {};
 
         //user shopping cart
         vm.userShoppingCart = [];
@@ -36,10 +36,40 @@
         //------------------------------------------------------bidding rounds----------------------------------------------------------------
         //current main bidding roud
         vm.currentRound = {};
-        //current bidding round type
-        vm.currentBiddingRoundType = '';
-        //all remaining users in the entire bidding
-        vm.allRemainingUsers = [];
+
+        //+++++++++++++++ user money data +++++++++++++++++++++
+        //remaining user value
+        vm.remainingUserValue = 0;
+        //minimum user value
+        vm.minimumUserValue = 0;
+        //+++++++++++++++ user money data +++++++++++++++++++++
+
+        //user bidding variables
+        //user chat messages
+        vm.allUserChatMessages = [];
+        //disable / ebable user bidding fields
+        vm.enableUserBidding = false;
+        //all bidding users list
+        vm.allBiddingUsers = CommonService.allUsers.getAllUsers();
+        //set a notification on starting bid value
+        vm.bidNotificationMsg = '';
+
+        //show or hide continue button(set this true before, switch to the very start)
+        vm.showNextRoundButton = false;
+
+        //show or hide system user bidding progress bar
+        vm.showChatProgressBar = false;
+        //show or hide card winning congrats view
+        vm.showCardWinningView = false;
+
+        //current user bid value binded to the text fields
+        vm.currentUserBidValue = 0;
+
+        //user winning fireworks message
+        vm.userWinningMessage = '';
+
+        //winner of this bidding session
+        vm.winnerOfBiddingSession = {};
         //------------------------------------------------------bidding rounds----------------------------------------------------------------
 
         //fired when open this page
@@ -50,25 +80,24 @@
                 createDialog($event);
 
             vm.auctioneerChatBubbleEffectClass = "bigEntrance";
-            vm.auctioneerChatBubbleMsg = AUCTIONEER_INTRODUCTION_MESSAGES.WELCOME_TO_AUTION + " '" + AUCTION_USER_DATA[0].user_name + "'"
-
-            vm.remainingUserValue = 100.00;
-            vm.minimumUserValue = 0;
+            vm.auctioneerChatBubbleMsg = AUCTIONEER_INTRODUCTION_MESSAGES.WELCOME_TO_AUTION + " '" + vm.currentLoggedUser.user_name + "'"
 
             //request all health cards from the server
             CommonService.healthCards.getAllCards();
 
-            //hide next round button
+            //hide continue button
             vm.showNextRoundButton = false;
+
+            console.log('################################ ', vm.userShoppingCart);
         }
 
         //initialize health cards styles
         function initHealthCards() {
 
             //update all health card array with initial health card
-            CommonService.healthCards.userPurchasedHealthCards.addCard(CommonService.healthCards.getInitialHealthCard());
+            // CommonService.healthCards.userPurchasedHealthCards.addCard(CommonService.healthCards.getInitialHealthCard());
 
-            //get user shopping cart
+            // //get user shopping cart
             vm.userShoppingCart = CommonService.healthCards.userPurchasedHealthCards.getCards();
 
             //set initial user mesasges
@@ -77,7 +106,7 @@
 
         //redirect to the splash page
         vm.goBack = function () {
-            $state.go('triangular.admin-default-no-scroll.game-splash');
+            startNewSession();
         }
 
         //open dialog box to a user to enter his nick name, use whie he play the game
@@ -97,21 +126,21 @@
                 if (result && result != null && result != '') {
                     //save nick name in cookies
                     $cookies.put('nickName', result);
+
+                    //set all users data
+                    CommonService.allUsers.setAllUsers();
+                    //get currently logged user data
+                    vm.currentLoggedUser = CommonService.allUsers.getAllUsers()[0];
+
                     vm.currentLoggedUser.user_name = result;
 
-                    $timeout(function () {
-                        vm.auctioneerChatBubbleMsg = AUCTIONEER_INTRODUCTION_MESSAGES.WELCOME_TO_AUTION + " '" + $scope.getUserNickName() + "'"
+                    // $timeout(function () {
+                    vm.auctioneerChatBubbleMsg = AUCTIONEER_INTRODUCTION_MESSAGES.WELCOME_TO_AUTION + " '" + vm.currentLoggedUser.user_name + "'"
 
-                        //set all users data
-                        CommonService.allUsers.setAllUsers();
-
-                    }, 20);
+                    // }, 20);
 
                     $timeout(function () {
                         vm.auctioneerChatBubbleHide = true;
-
-                        //set random bidding card
-                        vm.currentlySelectedHealthCard = $scope.getRandomBiddingCard();
 
                         //set initial user mesasges
                         initialUserMessages(false);
@@ -119,15 +148,10 @@
                         //set start bidding message
                         createCustomChatMessage('Please place a bid value for current health card to start', 'System', 'other');
 
-                        //enable user to enter bidding
-                        vm.enableUserBidding = true;
+                        //start a new bidding round and select a random health card for bidding
+                        openNewBiddingRound();
 
-                        //open new bidding round (initial first round)
-                        vm.currentRound = BiddingService.bidRounds.openRound(vm.currentlySelectedHealthCard, CommonService.allUsers.getAllRemainingUsers(USER_BIDDING_ABILITY.TERMINATE_FROM_TOURNAMENT));
-                        //set current bidding round type
-                        vm.currentBiddingRoundType = BIDDING_ROUNDS.BIDDING_ROUND_CLOSED;
-
-                    }, 3000);
+                    }, 200);
                 } else {
                     createDialog($event);
                     ToastService.showToast('Please tell us who you are, before proceed');
@@ -168,29 +192,212 @@
             vm.isOpenShoppingCart = !vm.isOpenShoppingCart;
         }
 
+        //fired when user confirms his bid value. And also system users' systamatic bidding starts at here
+        $scope.submitUserBiddingValue = function ($event) {
+            //by this page refresh prevented.
+            // $event.preventDefault();
 
-        //user bidding variables
-        //user chat messages
-        vm.allUserChatMessages = [];
-        //disable / ebable user bidding fields
-        vm.enableUserBidding = false;
-        //all bidding users list
-        vm.allBiddingUsers = AUCTION_USER_DATA;
-        //remaining users in current round
-        vm.currentRoundRemainingUsers = [];
-        //set a notification on starting bid value
-        vm.bidNotificationMsg = '';
+            //first check this user is valid for this round (if he/she purchased the maximum cards, this user cant submit any value)
+            if (vm.currentLoggedUser.purchased_cards.length >= 2) {
+                createCustomChatMessage('<b><i>You are already purchased the maximum amount of Health Cards. You can not participate to this session anymore.</i></b>', 'System', 'other');
+                return;
+            }
+
+            //TODO: can be reaplaced this whole block with 'startSystematicBidding()' but need to check
+            //show progress view
+            vm.showChatProgressBar = true;
+
+            //disable user to enter bidding
+            vm.enableUserBidding = false;
+            //start systamatic users bidding
+            BiddingService.Bidding.StartBidding(vm.currentRound, vm.currentlySelectedHealthCard, vm.currentUserBidValue);
+
+            //hide progress view
+            $timeout(function () {
+                vm.showChatProgressBar = false;
+
+                //show winner of this round
+                announceWinnerOfCurrentRound();
+            }, 1000);
+        }
+
+        //open a completely new session
+        $scope.proceedToNextRound = function ($event) {
+            saveUserData();
+        }
+
+        //save user data after compitition
+        function saveUserData() {
+
+            var real_user = CommonService.allUsers.getAllUsers()[0];
+
+            var user = new (api.user())();
+            user.participant = CommonService.allUsers.getRealUserData().id;
+            user.card1 = (real_user.purchased_cards.length > 0) ? real_user.purchased_cards[0].id : 0;
+            user.card2 = (real_user.purchased_cards.length >= 2) ? real_user.purchased_cards[1].id : 0;
+            user.money = real_user.user_remaining_money;
+            user.winner = (real_user.user_id === vm.winnerOfBiddingSession.user_id);
+            user.winner_date = $filter('date')(new Date(), 'yyyy-MM-dd');
+            user.paid_date = $filter('date')(new Date(), 'yyyy-MM-dd');
+
+            user.$save().then(function (data) {
+
+                console.log('nmj save data >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ', data);
+                startNewSession();
+
+            }, function () {
+
+                startNewSession();
+                ToastService.showToast('Data not saved. Please contact administrator.');
+            })
+        }
+
+        //start brand new bidding session from the beginning
+        function startNewSession() {
+            $location.path('/game/loading');
+
+            //reset all previous round details
+            resetPrviousRoundDetails();
+        }
 
 
-        //remaining user value
-        vm.remainingUserValue = 0;
-        //minimum user value
-        vm.minimumUserValue = 0;
-        //user placed current bid value
-        vm.currentUserBidValue = 0;
+        //start a new bidding round and select a random health card for bidding
+        function openNewBiddingRound() {
 
-        //show or hide proceed to next round button(set this true before, switch to new round or round type)
-        vm.showNextRoundButton = false;
+            //reset user added value
+            vm.currentUserBidValue = 0;
+
+            console.log('++++++++++++++++++++++++++++++++++++++++ ', BiddingService.bidRounds.getAllRounds())
+
+            //if it's going to exceed the maximum bidding rounds, stop the bidding
+            if (BiddingService.bidRounds.getAllRounds().length >= BIDDING_ROUND_MAX_LIMIT.LIMIT) {
+                vm.winnerOfBiddingSession = BiddingService.bidRounds.getUsersWithTotalCardValues().hasMax('purchased_card_value');
+                vm.userWinningMessage = vm.winnerOfBiddingSession.user_name + ' HAS BEEN WON THE BIDDING SESSION.';
+                vm.showCardWinningView = true;
+
+                //show continue button
+                vm.showNextRoundButton = true;
+
+                return;
+            }
+
+            //set random bidding card
+            vm.currentlySelectedHealthCard = $scope.getRandomBiddingCard();
+
+            //open new bidding round (initial first round)
+            vm.currentRound = BiddingService.bidRounds.openRound(vm.currentlySelectedHealthCard, CommonService.allUsers.getAllRemainingUsers());
+
+            //show user the current round details
+            vm.bidNotificationMsg = "Current round is : " + vm.currentRound.bidding_round_no;//"Bid Start from - AUD 13.50"
+
+            //set user remaining value
+            vm.remainingUserValue = CommonService.allUsers.getAllUsers()[0].user_remaining_money;
+
+            //enable user to enter bidding
+            vm.enableUserBidding = CommonService.allUsers.getAllUsers()[0].purchased_cards.length < 2;
+
+
+            //if real user is invalid for next rounds, automate the bidding process
+            if (CommonService.allUsers.getAllUsers()[0].purchased_cards.length >= 2) {
+
+                $timeout(function () {
+                    startSystematicBidding();
+                }, 2000);
+            }
+        }
+
+
+        //systematic bidding after real user purchased maximum cards
+        function startSystematicBidding() {
+
+            //show progress view
+            vm.showChatProgressBar = true;
+
+            //disable user to enter bidding
+            vm.enableUserBidding = false;
+            //start systamatic users bidding
+            BiddingService.Bidding.StartBidding(vm.currentRound, vm.currentlySelectedHealthCard, vm.currentUserBidValue);
+
+            //hide progress view
+            $timeout(function () {
+                vm.showChatProgressBar = false;
+
+                //show winner of this round
+                announceWinnerOfCurrentRound();
+            }, 3000);
+        }
+
+
+        //calculate and show the winner of the current bidding round
+        function announceWinnerOfCurrentRound() {
+
+            if (vm.currentRound === null || !angular.isDefined(vm.currentRound) || vm.currentRound.bid_values === null || !angular.isDefined(vm.currentRound.bid_values))
+                return;
+
+            //get winner's bid object
+            var bid_obj = vm.currentRound.bid_values.hasMax('value');
+
+            //get winner's user object
+            var winner = {};
+            angular.forEach(CommonService.allUsers.getAllUsers(), function (user) {
+                if (user.user_id === bid_obj.user_id)
+                    winner = user;
+            });
+
+            //set current round winner
+            BiddingService.bidRounds.setRoundWinner(vm.currentRound.bidding_round_no, winner, vm.currentlySelectedHealthCard);
+
+            //if user is the winner, show card winner view
+            if (winner.user_id === 1) {
+                vm.userWinningMessage = 'YOU WON THIS HEALTH CARD';
+                vm.showCardWinningView = true;
+
+                //set current users remaining value
+                vm.remainingUserValue = CommonService.allUsers.getAllUsers()[0].user_remaining_money;
+
+                createCustomChatMessage('<b><i>You </i></b> won this card and you spent ' + bid_obj.value + 'AUD on this card.', 'System', 'other');
+
+                //add this card to my shopping cart
+                CommonService.healthCards.userPurchasedHealthCards.addCard(vm.currentlySelectedHealthCard);
+                vm.userShoppingCart = CommonService.healthCards.userPurchasedHealthCards.getCards();
+
+                //hide card winning view
+                $timeout(function () {
+                    vm.showCardWinningView = false;
+                }, 3000);
+            }
+            //show user who is the winner
+            else {
+                createCustomChatMessage('<b><i>' + winner.user_name + '</i></b> has been won this card. He spent ' + bid_obj.value + 'AUD on this card.', 'System', 'other');
+
+                //announce starting a new round
+                vm.currentlySelectedHealthCard = null;
+                vm.auctioneerChatBubbleHide = false;
+                vm.auctioneerChatBubbleMsg = winner.user_name + ' has been won this card. He spent ' + bid_obj.value + 'AUD on this card.';
+
+                //hide card winning chat bubble
+                $timeout(function () {
+                    vm.auctioneerChatBubbleHide = true;
+                }, 3000);
+            }
+
+            //announce starting a new round
+            $timeout(function () {
+                vm.currentlySelectedHealthCard = null;
+                vm.auctioneerChatBubbleHide = false;
+                vm.auctioneerChatBubbleMsg = 'Opening a new round.\nPlease wait.........';
+            }, 3000);
+
+            $timeout(function () {
+                vm.auctioneerChatBubbleHide = true;
+                //start a new bidding round and select a random health card for bidding
+                openNewBiddingRound();
+            }, 4000);
+
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ', CommonService.allUsers.getAllUsers(), BiddingService.bidRounds.getAllRounds());
+
+        }
+
 
         //user bidding functions
         function selectRandomUser() {
@@ -212,9 +419,6 @@
                     message1 = message1 + '<h5 class="preview-lines">' + state + '</h5>';
                 })
                 createCustomChatMessage(message1, 'System', 'other');
-
-                //set bid notification message
-                vm.bidNotificationMsg = "Please Place your Bid";//"Bid Start from - AUD 13.50"
             }
 
 
@@ -248,205 +452,86 @@
             $("#chat_messages_container").scrollTop($("#chat_messages_container")[0].scrollHeight);
         }
 
-        /**user bid value submit function */
-        vm.submitBidValue = function ($event) {
-            $event.preventDefault();
 
-            //clear all user chat messages before publish new ones
+
+        //reset all previous round details
+        function resetPrviousRoundDetails() {
+
+            //reset commonm service data
+            CommonService.resetAllData();
+            //reset bidding service data
+            BiddingService.resetAllData();
+
+            //auctioneer's chat bubble message
+            vm.auctioneerChatBubbleMsg = "";
+            //chat bubble special effect class
+            vm.auctioneerChatBubbleEffectClass = "";
+            //hide auctioneer's chat bubble
+            vm.auctioneerChatBubbleHide = true;
+            //available health cards array
+            vm.availableHealthCards = [];//AUCTIONEER_INTRODUCTION_MESSAGES.AUCTIONED_HEALTH_CARDS;
+            //currently selected health card
+            vm.currentlySelectedHealthCard = null;
+            //current logged user
+            vm.currentLoggedUser = {};
+
+            //user shopping cart
+            vm.userShoppingCart = [];
+            //store user selected purchased class
+            vm.selectedPurchasedCard = null;
+
+            //check is shopping cart is open or not
+            vm.isOpenShoppingCart = false;
+
+            //store all health cards open for bidding
+            allHealthCards = [];
+
+            //------------------------------------------------------bidding rounds----------------------------------------------------------------
+            //current main bidding roud
+            vm.currentRound = {};
+
+            //+++++++++++++++ user money data +++++++++++++++++++++
+            //remaining user value
+            vm.remainingUserValue = 0;
+            //minimum user value
+            vm.minimumUserValue = 0;
+            //+++++++++++++++ user money data +++++++++++++++++++++
+
+            //user bidding variables
+            //user chat messages
             vm.allUserChatMessages = [];
-
-            //start bidding for system users
-            BiddingService.Bidding.StartBidding(vm.currentRound, vm.currentBiddingRoundType, vm.currentlySelectedHealthCard, CommonService.allUsers.getAllUsers());
-
-            var count = 0;
-            angular.forEach(CommonService.allUsers.getAllUsers(), function (user) {
-                //generate and show bidding messages
-
-                if (user.userBiddingAbility === USER_BIDDING_ABILITY.NOT_TERMINATED) {
-                    if (user.user_type === 'SysUser') {
-
-                        //set current bid value to user array
-                        var value = user.user_bid_values[vm.currentRound.bidding_round_no - 1].closed_round_value;
-                        if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_OPEN)
-                            value = user.user_bid_values[vm.currentRound.bidding_round_no - 1].open_round_value;
-
-                        createCustomChatMessage('<strong>' + user.user_name + '</strong> has been placed his bid (' + value + ' AUD)', user.user_name, 'other');
-                    } else {
-
-                        createCustomChatMessage('I placed my bid and it\'s value is ' + vm.currentUserBidValue + ' AUD', user.user_name, 'self');
-                        //set bid notification message
-                        vm.bidNotificationMsg = "you placed " + vm.currentUserBidValue + " AUD"
-
-                        //set current bid value to user array
-                        if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_CLOSED)
-                            user.user_bid_values[count].closed_round_value = vm.currentUserBidValue;
-                        if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_OPEN)
-                            user.user_bid_values[count].open_round_value = vm.currentUserBidValue;
-                    }
-                }
-
-                count++;
-            });
-
-            //disable user to enter bidding
+            //disable / ebable user bidding fields
             vm.enableUserBidding = false;
-            //reset bid value
-            vm.currentUserBidValue = 0;
+            //all bidding users list
+            vm.allBiddingUsers = [];
+            //set a notification on starting bid value
+            vm.bidNotificationMsg = '';
 
-
-            //show next round button
-            vm.showNextRoundButton = true;
-        }
-
-        /**proceed to the next bidding round */
-        vm.proceedToNextRound = function ($event) {
-
-            //hide next round button
+            //show or hide continue button(set this true before, switch to the very start)
             vm.showNextRoundButton = false;
 
-            //go to next round
-            proceedToNextRound($event);
+            //show or hide system user bidding progress bar
+            vm.showChatProgressBar = false;
+            //show or hide card winning congrats view
+            vm.showCardWinningView = false;
 
-            //enable user to enter bidding
-            vm.enableUserBidding = (CommonService.allUsers.getAllUsers()[0].userBiddingAbility === USER_BIDDING_ABILITY.NOT_TERMINATED);
+            //current user bid value binded to the text fields
+            vm.currentUserBidValue = 0;
 
-            //chage bidding round type to open
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_CLOSED)
-                vm.currentBiddingRoundType = BIDDING_ROUNDS.BIDDING_ROUND_OPEN;
+            //user winning fireworks message
+            vm.userWinningMessage = '';
 
-            //if current user is terminated, automate the proces
-            if (CommonService.allUsers.getAllUsers()[0].userBiddingAbility != USER_BIDDING_ABILITY.NOT_TERMINATED)
-                $timeout(function () {
-                    vm.submitBidValue($event);
-                }, 2000);
+            //winner of this bidding session
+            vm.winnerOfBiddingSession = {};
+            //------------------------------------------------------bidding rounds----------------------------------------------------------------
+            //remove nick name from cookies
+            $cookies.remove('nickName');
+
+            //remove user id from cookies
+            $cookies.remove('user');
         }
 
-        //start next round
-        function proceedToNextRound($event) {
 
-            var min = getLowestAndHighestBidders().min;
-            var max = getLowestAndHighestBidders().max;
-
-            //show terminate user indication message
-            showTerminateUserMessage(min, max);
-
-            // $timeout(function () {
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_CLOSED && min != null && angular.isDefined(min)) {
-
-                BiddingService.bidRounds.setClosedRoundTerminations(min.user_id);
-                BiddingService.bidRounds.setClosedRoundHighestBidder(max.user, vm.currentRound.bidding_round_no);
-
-                //terminate lowest bid user
-                CommonService.allUsers.getAllUsers()[min.user_id - 1].userBiddingAbility = USER_BIDDING_ABILITY.TERMINATE_FOR_OPEN_ROUND;
-
-                //set currently available users for the open round
-                var available_users = CommonService.allUsers.getAllRemainingUsers(USER_BIDDING_ABILITY.TERMINATE_FOR_OPEN_ROUND);
-
-                //set bid notification message
-                vm.bidNotificationMsg = "open bid starts from " + max.closed_value + " AUD"
-
-                // //start bidding for system users
-                // BiddingService.Bidding.StartBidding(vm.currentRound, vm.currentBiddingRoundType, vm.currentlySelectedHealthCard, CommonService.allUsers.getAllUsers());
-            } else if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_OPEN && max != null && angular.isDefined(max)) {
-
-                BiddingService.bidRounds.setOpenRoundWinner(max.user, vm.currentRound.bidding_round_no);
-                //add card to users cart
-                CommonService.allUsers.getAllUsers()[max.user_id - 1].purchased_cards.push(vm.currentlySelectedHealthCard);
-
-
-                createCustomChatMessage('<div style="color: red; font-weight: bolder;">' + CommonService.allUsers.getAllUsers()[max.user_id].user_name + ' has been purchased the previous health card. Starting new round</div>', 'System', 'other');
-                // //enable user to enter bidding
-                // vm.enableUserBidding = true;
-                //open new bidding round (initial first round)
-                vm.currentRound = BiddingService.bidRounds.openRound(vm.currentlySelectedHealthCard, CommonService.allUsers.getAllRemainingUsers(USER_BIDDING_ABILITY.TERMINATE_FROM_TOURNAMENT));
-                //set current bidding round type
-                vm.currentBiddingRoundType = BIDDING_ROUNDS.BIDDING_ROUND_CLOSED;
-
-
-                //reset user closed bidding temporary termitation flags
-                CommonService.allUsers.resetAllUserList();
-                // //restart bidding cycle
-                // vm.submitBidValue($event);
-
-            }
-            // }, 3000);
-
-        }
-
-        //show terminate user message
-        function showTerminateUserMessage(min, max) {
-
-            var user_name = 'You';
-
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_CLOSED && min != null && angular.isDefined(min)) {
-                user_name = (min.user_id != 1) ? min.user__.user_name : 'You';
-
-                createCustomChatMessage('<b><i>' + user_name + '</i></b> has been disqualified to the open bidding round, due to place a low bid value in previous round.', 'System', 'other');
-            }
-
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_OPEN && max != null && angular.isDefined(max)) {
-                user_name = (max.user_id != 1) ? max.user_name : 'You';
-                createCustomChatMessage('<b><i>' + user_name + '</i></b> has been disqualified from the bidding, due to purchase maximum of 2 Health Cards.', 'System', 'other');
-            }
-
-        }
-
-        //get lowest and highest bidders from the users
-        function getLowestAndHighestBidders() {
-
-            var min = {};
-            var max = {};
-
-            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ', vm.currentRound, '----------------', CommonService.allUsers.getAllUsers());
-
-            //create new array containing user id and bidding values
-            var new_arr = [];
-            var count = 0;
-            angular.forEach(CommonService.allUsers.getAllUsers(), function (user) {
-
-                if (!(user.user_bid_values[vm.currentRound.bidding_round_no - 1].closed_round_value === 0 && user.user_bid_values[vm.currentRound.bidding_round_no - 1].open_round_value === 0))
-                    new_arr.push(
-                        {
-                            user_id: user.user_id,
-                            user__: user,
-                            closed_value: user.user_bid_values[vm.currentRound.bidding_round_no - 1].closed_round_value,
-                            open_value: user.user_bid_values[vm.currentRound.bidding_round_no - 1].open_round_value
-                        }
-                    )
-            })
-
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_CLOSED) {
-                min = new_arr.hasMin('closed_value');
-                var max__ = new_arr.hasMax('closed_value');
-
-                var arr__ = angular.copy(new_arr);
-                //create new array without max value
-                var count = 0;
-                var index = 0;
-                angular.forEach(arr__, function (elem) {
-
-                    if (elem.user_id === max__.user_id)
-                        return index = count;
-
-                    count++;
-                });
-
-                //reomve max value
-                arr__.splice(index, 1);
-
-                max = arr__.hasSecondMax('closed_value');
-
-                console.log('##################### ', new_arr, max__, index, arr__, max);
-            }
-
-            if (vm.currentBiddingRoundType === BIDDING_ROUNDS.BIDDING_ROUND_OPEN) {
-                min = new_arr.hasMin('open_value');
-                max = new_arr.hasMax('open_value');
-            }
-
-            return { min: min, max: max };
-
-        }
 
         //get minimum valued item from the item list
         Array.prototype.hasMin = function (attrib) {
@@ -461,12 +546,132 @@
                 return parseFloat(prev[attrib]) > parseFloat(curr[attrib]) ? prev : curr;
             });
         }
-        //get second max valued item from the item list
-        Array.prototype.hasSecondMax = function (attrib) {
-            return this.reduce(function (prev, curr) {
-                return parseFloat(prev[attrib]) > parseFloat(curr[attrib]) ? prev : curr;
-            });
+
+
+        //congradgulations message data----------------------------------------------
+        var ctx = canvas.getContext("2d");
+        var w = document.body.clientWidth;
+        var h = document.body.clientHeight;
+        canvas.width = w;
+        canvas.height = h;
+
+        var nodes = [];
+
+
+        function draw() {
+            requestAnimationFrame(draw);
+
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.fillStyle = "rgba(0, 0, 0, .08)";
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.globalCompositeOperation = "lighter";
+
+            var l = nodes.length, node;
+            while (l--) {
+                node = nodes[l];
+                drawNode(node);
+                if (node.dead) {
+                    nodes.splice(l, 1);
+                }
+            }
+
+            if (nodes.length < 10) {
+                l = rand(4, 1) | 0;
+                while (l--) {
+                    nodes.push(makeNode(
+                        Math.random() * w | 0,
+                        Math.random() * h | 0,
+                        40,
+                        "hsl(" + (rand(300, 0) | 0) + ", 100%, 50%)",
+                        100
+                    ));
+                }
+            }
         }
+
+        function drawNode(node) {
+
+            var l = node.children.length, point;
+            while (l--) {
+                point = node.children[l];
+                ctx.beginPath();
+                ctx.fillStyle = point.color;
+                ctx.arc(point.x, point.y, 1, 0, PI2);
+                ctx.fill();
+                ctx.closePath();
+                updatePoint(point);
+                if (point.dead) {
+                    node.children.splice(l, 1);
+                    if (node.count > 20) {
+                        nodes.push(makeNode(
+                            point.x,
+                            point.y,
+                            node.radius * 10,
+                            node.color,
+                            (node.count / 10) | 0
+                        ))
+                    }
+                }
+            }
+            if (!node.children.length) {
+                node.dead = true;
+            }
+        }
+
+        function updatePoint(point) {
+            var dx = point.x - point.dx;
+            var dy = point.y - point.dy;
+            var c = Math.sqrt(dx * dx + dy * dy);
+            point.dead = c < 1;
+            point.x -= dx * point.velocity;
+            point.y -= dy * point.velocity;
+        }
+
+        const rad = Math.PI / 180;
+        const PI2 = Math.PI * 2;
+        var ttt = 0;
+
+        function rand(max, min) {
+            min = min || 0;
+            return Math.random() * (max - min) + min;
+        }
+
+        function makeNode(x, y, radius, color, partCount) {
+
+            radius = radius || 0;
+            partCount = partCount || 0;
+            var count = partCount;
+
+            var children = [], kof, r;
+
+
+            while (partCount--) {
+                kof = 100 * Math.random() | 0;
+                r = radius * Math.random() | 0;
+                children.push({
+                    x: x,
+                    y: y,
+                    dx: x + r * Math.cos(ttt * kof * rad),
+                    dy: y + r * Math.sin(ttt * kof * rad),
+                    color: color,
+                    velocity: rand(1, 0.05)
+                });
+                ttt++
+            }
+
+            return {
+                radius: radius,
+                count: count,
+                color: color,
+                x: x,
+                y: y,
+                children: children
+            }
+        }
+        //start fire works
+        draw();
+        //congradgulations message data----------------------------------------------
 
     }
 })();

@@ -3,7 +3,10 @@
 
     angular
         .module('triangular')
-        .service('CommonService', ['$rootScope', '$timeout', '$window', '$location', 'ToastService', '$cookies', '$state', 'api', 'API_BROADCAST_CONSTANTS', 'AUCTION_USER_DATA', 'USER_BIDDING_ABILITY', function ($rootScope, $timeout, $window, $location, ToastService, $cookies, $state, api, API_BROADCAST_CONSTANTS, AUCTION_USER_DATA, USER_BIDDING_ABILITY) {
+        .service('CommonService', ['$rootScope', '$timeout', '$window', '$location', 'ToastService', '$cookies', '$state', 'api', 'API_BROADCAST_CONSTANTS', 'AUCTION_USER_DATA', function ($rootScope, $timeout, $window, $location, ToastService, $cookies, $state, api, API_BROADCAST_CONSTANTS, AUCTION_USER_DATA) {
+
+            //all available users
+            var allAvailableUsers = [];
 
             //store all functions that returns from this service
             var all_functions = {};
@@ -16,6 +19,9 @@
 
             //user purchased health cards list
             var userPurchasedHealthCards = [];
+
+            //data object of logged in real user
+            var realUserDataObject = {};
 
             //default card template
             var defaultCardTemplate = {
@@ -47,11 +53,13 @@
                                     openRegistrationPage();
                                 }
                                 break;
-                            // case '/game/loading':
-                            //     if (all_functions.isAuthCookiesMissing()) {
-                            //         openRegistrationPage();
-                            //     }
-                            //     break;
+                            case '/game/loading':
+                                // if (all_functions.isAuthCookiesMissing()) {
+                                //     openRegistrationPage();
+                                // }
+                                break;
+                            case '/game/splash':
+                                break;
                             case '/game/chat':
                                 if (all_functions.isAuthCookiesMissing()) {
                                     openRegistrationPage();
@@ -147,16 +155,20 @@
                 allUsers: {
                     setAllUsers: function () {
                         var name = $cookies.get('nickName');
-                        AUCTION_USER_DATA[0].user_name = name;
+                        //get a copy and edit instead of edit the original array
+                        allAvailableUsers = angular.copy(AUCTION_USER_DATA);
+                        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>> ', allAvailableUsers);
+
+                        allAvailableUsers[0].user_name = name;
                     },
                     getAllUsers: function () {
-                        return AUCTION_USER_DATA;
+                        return allAvailableUsers;
                     },
-                    getAllRemainingUsers: function (exclude) {
+                    getAllRemainingUsers: function () {
 
                         var all_remaining_users = [];
-                        angular.forEach(AUCTION_USER_DATA, function (user) {
-                            if (user.userBiddingAbility != exclude && user.userBiddingAbility != USER_BIDDING_ABILITY.TERMINATE_FROM_TOURNAMENT) {
+                        angular.forEach(allAvailableUsers, function (user) {
+                            if (user.purchased_cards == null || !angular.isDefined(user.purchased_cards) || !Array.isArray(user.purchased_cards) || user.purchased_cards.length < 2) {
                                 all_remaining_users.push(user);
                             }
                         })
@@ -164,13 +176,33 @@
                         return all_remaining_users;
 
                     },
-                    resetAllUserList: function () {
-                        angular.forEach(AUCTION_USER_DATA, function (user) {
-                            if (user.userBiddingAbility === USER_BIDDING_ABILITY.TERMINATE_FOR_OPEN_ROUND) {
-                                user.userBiddingAbility = USER_BIDDING_ABILITY.NOT_TERMINATED;
-                            }
-                        })
+                    setRealUserData: function (user_data) {
+                        realUserDataObject = user_data;
+                    },
+                    getRealUserData: function() {
+                        return realUserDataObject;
                     }
+                },
+                //reset all entered data
+                resetAllData: function () {
+
+                    //all available users
+                    allAvailableUsers = [];
+
+                    //store all functions that returns from this service
+                    all_functions = {};
+                    //store all health cards open for bidding
+                    allHealthCards = [];
+                    //currently selected health card
+                    currentlySelectedHealthCard = null;
+                    //initial health card, that all users recieved for free
+                    initialHealthCard = null;
+
+                    //user purchased health cards list
+                    userPurchasedHealthCards = [];
+
+                    //data object of logged in real user
+                    realUserDataObject = {};
                 }
             };
 

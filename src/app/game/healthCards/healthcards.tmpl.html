@@ -1,18 +1,399 @@
-<md-content class="" style="background-color: black; overflow: hidden;">
-    <div class="drag-container" dragula='"drag-container"' layout="column" layout-xs="column" layout-align="start center" layout-margin>
+<md-content style="background: black !important;" ng-init="init();">
+    <!--style="background-color: black; overflow: hidden; height: 100% !important; min-height: 100% !important;"-->
+    <div layout-margin>
 
-        <tri-widget ng-repeat="healthCard in vm.availableHealthCards track by $index" title="{{healthCard.name}}" palette-background="blue-grey:500"
-            background="primary" style="min-width: 48% !important;">
+        <!--<tri-widget ng-repeat="healthCard in vm.availableHealthCards track by $index" title="{{healthCard.name}}" palette-background="blue-grey:500"
+            background="primary" style="min-width: 47% !important; width: 47% !important; display: inline-block !important; padding: 15px; border-radius: 15px; -webkit-box-shadow: 5px 5px 5px 0px rgba(156,157,158,1);
+-moz-box-shadow: 5px 5px 5px 0px rgba(156,157,158,1);
+box-shadow: 5px 5px 5px 0px rgba(156,157,158,1);">
             <h2 ng-repeat="state in healthCard.states" class="preview-lines">{{state}}</h2>
-        </tri-widget>
+        </tri-widget>-->
 
-        <!--<tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:500" background="primary"></tri-widget>
-        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:600" background="primary"></tri-widget>
-        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:700" background="primary"></tri-widget>
-        <tri-widget flex title="Drag Me!" subtitle="content" title-position="top" palette-background="blue-grey:800" background="primary"></tri-widget>-->
+        <header class="codrops-header">
+            <h1>HEALTH CARDS <span>These are the health cards that available in the auction. Please read carefuly and proceed.</span></h1>
+        </header>
+
+        <div class="grid drag-container" dragula='"drag-container"'>
+            <tri-widget class="figure effect-apollo" ng-repeat="healthCard in vm.availableHealthCards track by $index">
+                <img src="assets/images/cards/card_back.png" alt="img18" />
+                <figcaption>
+                    <h2><span>{{healthCard.name}}</span></h2>
+                    <p>
+                        <span ng-repeat="state in healthCard.states">{{state}}</span>
+                    </p>
+                </figcaption>
+            </tri-widget>
+        </div>
     </div>
 
     <div>
         <button type="button" class="bid-continue btn" ng-click="vm.openChat();" style="position: fixed; z-index: 20; right: 2%; top: 80vh;">Start Bidding</button>
     </div>
+
+
+    <!--<div class="container">
+        <div class="codrops-top clearfix">
+            <a class="codrops-icon codrops-icon-prev" href="http://tympanus.net/Tutorials/FourBoxes/"><span>Previous Demo</span></a>
+            <span class="right"><a class="codrops-icon codrops-icon-drop" href="http://tympanus.net/codrops/?p=19292"><span>Back to the Codrops Article</span></a>
+            </span>
+        </div>
+        <header class="codrops-header">
+            <h1>Hover Effect Ideas <span>An inspirational collection of subtle hover effects</span></h1>
+            <nav class="codrops-demos">
+                <a href="index.html">Set 1</a>
+                <a class="current-demo" href="index2.html">Set 2</a>
+            </nav>
+        </header>
+        <div class="content">
+            <h2>Julia</h2>
+            <div class="grid">
+                <figure class="effect-julia">
+                    <img src="assets/images/cards/card_back.png" alt="img21" />
+                    <figcaption>
+                        <h2>Passionate <span>Julia</span></h2>
+                        <div>
+                            <p>Julia dances in the deep dark</p>
+                            <p>She loves the smell of the ocean</p>
+                            <p>And dives into the morning light</p>
+                        </div>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-julia">
+                    <img src="assets/images/cards/card_back.png" alt="img22" />
+                    <figcaption>
+                        <h2>Passionate <span>Julia</span></h2>
+                        <div>
+                            <p>Julia dances in the deep dark</p>
+                            <p>She loves the smell of the ocean</p>
+                            <p>And dives into the morning light</p>
+                        </div>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Goliath</h2>
+            <div class="grid">
+                <figure class="effect-goliath">
+                    <img src="assets/images/cards/card_back.png" alt="img23" />
+                    <figcaption>
+                        <h2>Thoughtful <span>Goliath</span></h2>
+                        <p>When Goliath comes out, you should run.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-goliath">
+                    <img src="assets/images/cards/card_back.png" alt="img24" />
+                    <figcaption>
+                        <h2>Thoughtful <span>Goliath</span></h2>
+                        <p>When Goliath comes out, you should run.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Hera</h2>
+            <div class="grid">
+                <figure class="effect-hera">
+                    <img src="assets/images/cards/card_back.png" alt="img17" />
+                    <figcaption>
+                        <h2>Tender <span>Hera</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-file-pdf-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-image-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-archive-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-code-o"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+                <figure class="effect-hera">
+                    <img src="assets/images/cards/card_back.png" alt="img25" />
+                    <figcaption>
+                        <h2>Tender <span>Hera</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-file-pdf-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-image-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-archive-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-file-code-o"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Winston</h2>
+            <div class="grid">
+                <figure class="effect-winston">
+                    <img src="assets/images/cards/card_back.png" alt="img30" />
+                    <figcaption>
+                        <h2>Jolly <span>Winston</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-star-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-comments-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-envelope-o"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+                <figure class="effect-winston">
+                    <img src="assets/images/cards/card_back.png" alt="img01" />
+                    <figcaption>
+                        <h2>Jolly <span>Winston</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-star-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-comments-o"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-envelope-o"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Selena</h2>
+            <div class="grid">
+                <figure class="effect-selena">
+                    <img src="assets/images/cards/card_back.png" alt="img10" />
+                    <figcaption>
+                        <h2>Happy <span>Selena</span></h2>
+                        <p>Selena is a tiny-winged bird.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-selena">
+                    <img src="assets/images/cards/card_back.png" alt="img31" />
+                    <figcaption>
+                        <h2>Happy <span>Selena</span></h2>
+                        <p>Selena is a tiny-winged bird.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Terry</h2>
+            <div class="grid">
+                <figure class="effect-terry">
+                    <img src="assets/images/cards/card_back.png" alt="img16" />
+                    <figcaption>
+                        <h2>Noisy <span>Terry</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-download"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-share"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-tags"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+                <figure class="effect-terry">
+                    <img src="assets/images/cards/card_back.png" alt="img26" />
+                    <figcaption>
+                        <h2>Noisy <span>Terry</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-download"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-share"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-tags"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Phoebe</h2>
+            <div class="grid">
+                <figure class="effect-phoebe">
+                    <img src="assets/images/cards/card_back.png" alt="img03" />
+                    <figcaption>
+                        <h2>Plain <span>Phoebe</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-user"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-cog"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+                <figure class="effect-phoebe">
+                    <img src="assets/images/cards/card_back.png" alt="img07" />
+                    <figcaption>
+                        <h2>Plain <span>Phoebe</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-user"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-cog"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Apollo</h2>
+            <div class="grid">
+                <figure class="effect-apollo">
+                    <img src="assets/images/cards/card_back.png" alt="img18" />
+                    <figcaption>
+                        <h2>Strong <span>Apollo</span></h2>
+                        <p>Apollo's last game of pool was so strange.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-apollo">
+                    <img src="assets/images/cards/card_back.png" alt="img22" />
+                    <figcaption>
+                        <h2>Strong <span>Apollo</span></h2>
+                        <p>Apollo's last game of pool was so strange.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Kira</h2>
+            <div class="grid">
+                <figure class="effect-kira">
+                    <img src="assets/images/cards/card_back.png" alt="img17" />
+                    <figcaption>
+                        <h2>Dark <span>Kira</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-home"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-download"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-share"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+                <figure class="effect-kira">
+                    <img src="assets/images/cards/card_back.png" alt="img05" />
+                    <figcaption>
+                        <h2>Dark <span>Kira</span></h2>
+                        <p>
+                            <a href="#"><i class="fa fa-fw fa-home"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-download"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-share"></i></a>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Steve</h2>
+            <div class="grid">
+                <figure class="effect-steve">
+                    <img src="assets/images/cards/card_back.png" alt="img29" />
+                    <figcaption>
+                        <h2>Lonely <span>Steve</span></h2>
+                        <p>Steve was afraid of the Boogieman.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-steve">
+                    <img src="assets/images/cards/card_back.png" alt="img33" />
+                    <figcaption>
+                        <h2>Lonely <span>Steve</span></h2>
+                        <p>Steve was afraid of the Boogieman.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Moses</h2>
+            <div class="grid">
+                <figure class="effect-moses">
+                    <img src="assets/images/cards/card_back.png" alt="img24" />
+                    <figcaption>
+                        <h2>Cute <span>Moses</span></h2>
+                        <p>Moses loves to run after butterflies.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-moses">
+                    <img src="assets/images/cards/card_back.png" alt="img20" />
+                    <figcaption>
+                        <h2>Cute <span>Moses</span></h2>
+                        <p>Moses loves to run after butterflies.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Jazz</h2>
+            <div class="grid">
+                <figure class="effect-jazz">
+                    <img src="assets/images/cards/card_back.png" alt="img25" />
+                    <figcaption>
+                        <h2>Dynamic <span>Jazz</span></h2>
+                        <p>When Jazz starts to chase cars, the whole world stands still.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-jazz">
+                    <img src="assets/images/cards/card_back.png" alt="img06" />
+                    <figcaption>
+                        <h2>Dynamic <span>Jazz</span></h2>
+                        <p>When Jazz starts to chase cars, the whole world stands still.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Ming</h2>
+            <div class="grid">
+                <figure class="effect-ming">
+                    <img src="assets/images/cards/card_back.png" alt="img09" />
+                    <figcaption>
+                        <h2>Funny <span>Ming</span></h2>
+                        <p>Ming sits in the corner the whole day. She's into crochet.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-ming">
+                    <img src="assets/images/cards/card_back.png" alt="img08" />
+                    <figcaption>
+                        <h2>Funny <span>Ming</span></h2>
+                        <p>Ming sits in the corner the whole day. She's into crochet.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Lexi</h2>
+            <div class="grid">
+                <figure class="effect-lexi">
+                    <img src="assets/images/cards/card_back.png" alt="img12" />
+                    <figcaption>
+                        <h2>Altruistic <span>Lexi</span></h2>
+                        <p>Each and every friend is special. Lexi won't hide a single cookie.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-lexi">
+                    <img src="assets/images/cards/card_back.png" alt="img03" />
+                    <figcaption>
+                        <h2>Altruistic <span>Lexi</span></h2>
+                        <p>Each and every friend is special. Lexi won't hide a single cookie.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <h2>Duke</h2>
+            <div class="grid">
+                <figure class="effect-duke">
+                    <img src="assets/images/cards/card_back.png" alt="img27" />
+                    <figcaption>
+                        <h2>Messy <span>Duke</span></h2>
+                        <p>Duke is very bored. When he looks at the sky, he feels to run.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+                <figure class="effect-duke">
+                    <img src="assets/images/cards/card_back.png" alt="img17" />
+                    <figcaption>
+                        <h2>Messy <span>Duke</span></h2>
+                        <p>Duke is very bored. When he looks at the sky, he feels to run.</p>
+                        <a href="#">View more</a>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+        <nav class="codrops-demos">
+        </nav>
+        <section class="related">
+            <p>Images from <a href="http://unsplash.com/">Unsplash</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>.</p>
+            <p><strong>If you enjoyed this demo you might also like:</strong></p>
+            <a href="http://tympanus.net/Tutorials/CaptionHoverEffects/">
+                <img src="http://tympanus.net/codrops/wp-content/uploads/2013/06/CaptionHoverEffect-300x162.png" />
+                <h3>Caption Hover Effects</h3>
+            </a>
+            <a href="http://tympanus.net/Tutorials/ShapeHoverEffectSVG/">
+                <img src="http://tympanus.net/codrops/wp-content/uploads/2014/01/ShapeHoverEffect-300x162.png" />
+                <h3>Shape Hover Effects</h3>
+            </a>
+        </section>
+    </div>
+    <script>
+			// For Demo purposes only (show hover effect on mobile devices)
+			[].slice.call( document.querySelectorAll('a[href="#"') ).forEach( function(el) {
+				el.addEventListener( 'click', function(ev) { ev.preventDefault(); } );
+			} );
+		</script>-->
 </md-content>

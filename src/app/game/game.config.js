@@ -16,10 +16,10 @@
                 controller: 'RegistrationController',
                 controllerAs: 'vm',
                 data: {
-                    layout: {
-                        contentClass: 'full-image-background mb-bg-fb-01 background-overlay-static',
-                        innerContentClass: 'overlay-gradient-20'
-                    }
+                    // layout: {
+                    //     contentClass: 'full-image-background mb-bg-fb-29 background-overlay-static',
+                    //     innerContentClass: 'overlay-gradient-10'
+                    // }
                 }
             })
             .state('triangular.admin-default-no-scroll.game-splash', {

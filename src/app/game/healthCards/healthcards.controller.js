@@ -11,8 +11,12 @@
 
         vm.availableHealthCards = [];
 
-        //request all health cards from the server
-        CommonService.healthCards.getAllCards();
+        //fired when page open
+        $scope.init = function () {
+
+            //request all health cards from the server
+            CommonService.healthCards.getAllCards();
+        }
 
         //this broadcast listener get all health cards from server
         $scope.$on(API_BROADCAST_CONSTANTS.API_GET_ALL_CARDS, function (event, allHealthCards) {

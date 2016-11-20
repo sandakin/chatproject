@@ -1,7 +1,9 @@
 <br>
+<!--<div class="reg-background">
+</div>-->
 <div flex layout="row" layout-align="center center">
-	<div flex="95" class="md-whiteframe-z1 margin-bottom-10" tri-wizard>
-		<md-toolbar class="md-primary">
+	<div flex="95" class="md-whiteframe-z1 margin-bottom-10" tri-wizard style="border-radius: 15px; z-index: 30;">
+		<md-toolbar class="md-primary"style="border-radius: 15px 15px 0 0;">
 			<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
 				<h2>Fill the Form Below</h2>
 			</div>
@@ -13,7 +15,7 @@
 					<span class="oxy-step-label">1</span>
 				</md-tab-label>
 				<md-tab-body>
-					<md-content class="md-padding">
+					<md-content class="md-padding full-image-background mb-bg-fb-28 background-overlay-static">
 						<form name="accountForm" tri-wizard-form novalidate>
 							<div layout="column" layout-align="start start" style="margin:0px;padding:0px;margin-bottom:0">
 								<md-input-container md-no-float style="margin:0px;padding:0px;">
@@ -53,7 +55,7 @@
 					<span class="oxy-step-label">2</span>
 				</md-tab-label>
 				<md-tab-body>
-					<md-content class="md-padding">
+					<md-content class="md-padding full-image-background mb-bg-fb-28 background-overlay-static">
 						<form name="addressForm" tri-wizard-form>
 							<div layout="column" layout-align="start start">
 								<h3><b>Do you have currently any medical conditions given below</b></h3>
@@ -158,7 +160,7 @@
 					<span class="oxy-step-label">3</span>
 				</md-tab-label>
 				<md-tab-body>
-					<md-content class="md-padding">
+					<md-content class="md-padding full-image-background mb-bg-fb-28 background-overlay-static">
 						<form name="billingForm" tri-wizard-form>
 							<div layout="column" layout-align="start start">
 								<h3><b>By placing a tick in one box in each group below, please indicate which
@@ -233,7 +235,7 @@
 					<span class="oxy-step-label">4</span>
 				</md-tab-label>
 				<md-tab-body>
-					<md-content class="md-padding" layout="row">
+					<md-content class="md-padding full-image-background mb-bg-fb-28 background-overlay-static" layout="row">
 						<div layout="column" flex="50">
 							<p>
 								To help people say how good or bad a health state is,we have drawn a scale (rather like a thermometer) on which the best
@@ -262,7 +264,7 @@
 					<span class="oxy-step-label">5</span>
 				</md-tab-label>
 				<md-tab-body>
-					<md-content class="md-padding">
+					<md-content class="md-padding full-image-background mb-bg-fb-28 background-overlay-static">
 						<div class="padding-40" flex layout="column" layout-align="center center">
 							<img class="" src="assets/images/logo.png" height="20%" width="20%">
 							<h2 class="md-display-2">{{vm.message}}</h2>
@@ -273,11 +275,16 @@
 				</md-tab-body>
 			</md-tab>
 		</md-tabs>
-		<div class="wizard-navbar" layout-fill layout-padding layout="row" layout-align="end center">
+		<div class="wizard-navbar" layout-fill layout-padding layout="row" layout-align="end center" style="border-radius: 0 0 15px 15px; background-color: black; opacity: 0.9;">
 			<md-button class="md-primary md-raised" ng-click="triWizard.prevStep()" ng-hide="triWizard.currentStep > 3" ng-disabled="triWizard.prevStepDisabled()">Previous</md-button>
 			<md-button class="md-primary md-raised" ng-click="triWizard.nextStep();manageTabs(triWizard.currentStep)" ng-hide="triWizard.currentStep > 2"
 				ng-disabled="vm.zipocde == '' || vm.dob == '' || vm.dob == undefined">Next</md-button>
 			<md-button class="md-accent md-raised" ng-click="manageTabs('4');triWizard.currentStep = 4;saveDetails()" ng-show="triWizard.currentStep == 3">Save</md-button>
 		</div>
+	</div>
+
+
+	<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: black; opacity: 0.9;">
+		<canvas id="canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
 	</div>
 </div>
